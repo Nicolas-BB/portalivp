@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - Perto de Você</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="cadastrar.css">
+</head>
+<body>
+<main class="auth">
+    <section class="auth-card" aria-labelledby="cadastrar-titulo">
+        <header class="auth-head">
+            <a class="logo" href="inicial.html" aria-label="Perto de Você - voltar à página inicial">
+                <span class="logo-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                <span class="logo-text">Perto de Você</span>
+            </a>
+            <h1 id="cadastrar-titulo" class="auth-title">Crie sua Conta</h1>
+            <p class="auth-subtitle">Faça parte do Perto de Você e descubra tudo o que seu bairro tem a oferecer.</p>
+        </header>
+
+        <form class="auth-form" id="form-cadastrar" action="#" novalidate>
+            <div class="field">
+                <label class="field-label" for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Seu Nome Completo" aria-describedby="erro-nome" required>
+                <p class="field-error" id="erro-nome" role="alert"></p>
+            </div>
+
+            <div class="field">
+                <label class="field-label" for="email">E-mail</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@email.com" aria-describedby="erro-mail" required>
+                <p class="field-error" id="erro-mail" role="alert"></p>
+            </div>
+
+            <div class="field">
+                <label class="field-label" for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" data-senha autocomplete="new-password" placeholder="Mínimo de 8 caracteres" aria-describedby="erro-senha" required>
+                <p class="field-error" id="erro-senha" role="alert"></p>
+            </div>
+
+            <label class="check"><input type="checkbox" id="mostrar-senhas">Mostrar Senhas</label>
+
+            <div class="field">
+                <label class="check">
+                    <input type="checkbox" id="termos" name="termos" aria-describedby="erro-termos" required>
+                    <span>Li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de Privacidade</a></span>
+                </label>
+                <p class="field-error" id="erro-termos" role="alert"></p>
+            </div>
+
+            <button class="botao-principal" type="submit">Criar Minha Conta</button>
+            <p class="form-status" id="status" role="status"></p>
+        </form>
+
+        <p class="auth-switch">Já tem uma conta? <a class="auth-link" href="entrar.html">Entrar</a></p>
+        <a class="auth-back" href="inicial.html">← Voltar a página inicial</a>
+    </section>
+</main>
+
+<script src="auth.js" defer></script>    
+</body>
+</html>

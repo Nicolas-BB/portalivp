@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perto de Você</title>
+  <meta name="description" content="Encontre lojas e serviços pertinho de você e ajude a economia do seu bairro a crescer.">
+  <link rel="stylesheet" href="inicial.css">
+</head>
+<body>
+
+<!--ICONES-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24"><path d="M4 11h16a8 8 0 0 1-16 0Z"/><path d="M9 7c0-2 3-2 3-4M15 7c0-2 3-2 3-4"/></symbol>
+    <symbol id="i-rest" viewBox="0 0 24 24"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 21V3c-3 2-3 8 0 9"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6" cy="10" r="2"/><circle cx="10" cy="5.5" r="2"/><circle cx="15" cy="5.5" r="2"/><circle cx="19" cy="10" r="2"/><path d="M8 18c0-3 2-5 4-5s4 2 4 5c0 2-2 2-4 1-2 1-4 1-4-1Z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11Z"/></symbol>
+    <symbol id="i-beauty" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3ZM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3a4 4 0 0 1-8 0Z"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-2.6-.6-.6-2.6 2.6-2.2Z"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 12v8h14v-8"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></symbol>
+    <symbol id="i-face" viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8Z"/></symbol>
+    <symbol id="i-whats" viewBox="0 0 24 24"><path d="M3 21l1.5-4.5A8.5 8.5 0 1 1 8 19.6L3 21Z"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#conteudo">Ir para o Conteúdo</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="inicial.html" aria-label="Perto de Você - início">
+      <span class="logo-icon"><svg class="icon"><use href="#i-pin"/></svg></span>
+      <span class="logo-text">Perto de Você</span>
+    </a>
+
+    <form class="header-search" role="search" action="#">
+      <svg class="icon"><use href="#i-search"/></svg>
+      <input type="search" placeholder="O que Você Procura Hoje?" aria-label="Pesquisa">
+    </form>
+
+    <nav class="header-nav" aria-label="Conta">
+      <span class="header-location"><svg class="icon"><use href="#i-pin"/></svg>São Paulo, SP</span>
+      <a class="link-entrar" href="entrar.html">Entrar</a>
+      <a class="link-cadastrar" href="cadastrar.html">Cadastrar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <section class="destaque">
+    <div class="destaque-inner">
+      <span class="tag">Apoie o Empreendedor Local</span>
+      <h1 class="destaque-title">Valorize o comércio da <span class="text-color">sua cidade</span></h1>
+      <p class="destaque-subtitle">Encontre Lojas, Produtos e Serviços bem pertinho de você.</p>
+
+      <form class="search-bar" action="#">
+        <label class="bar-field">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input type="text" name="busca" placeholder="Busque por Loja ou Produto!" aria-label="Buscar por loja ou produto">
+        </label>
+        <label class="bar-field bar-field--select">
+          <svg class="icon"><use href="#i-pin"/></svg>
+          <select name="bairro" aria-label="Bairro">
+            <option>Todos os Bairros</option>
+          </select>
+        </label>
+        <button class="botao-busca-principal" type="submit">Explorar Lojas Próximas</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="categorias-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="categorias-titulo" class="section-title">Categorias Populares</h2>
+        <a class="link-more" href="#">Ver Todas</a>
+      </div>
+      <ul class="category-grade">
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-food"/></svg>Alimentação</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-rest"/></svg>Restaurantes</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-cart"/></svg>Mercados</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-paw"/></svg>Pet Shop</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-heart"/></svg>Saúde</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-beauty"/></svg>Beleza</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-shirt"/></svg>Moda</a></li>
+        <li><a class="category-card" href="#"><svg class="icon"><use href="#i-tool"/></svg>Serviços</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="lojas-titulo">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="lojas-titulo" class="section-title">Lojas Perto de Você</h2>
+          <p class="section-subtitle">Descubra os melhores estabelecimentos do seu Bairro</p>
+        </div>
+        <a class="link-more" href="#">Ver Todas as Lojas</a>
+      </div>
+    </div>
+    <!--EXEMPLOS DE LOJAS!-->
+    <div class="card-grid">
+      <article class="article-class">
+        <div class="store-card-cover" role="img" aria-label="Imagem de demonstração da loja"><svg class="icon"><use href="#i-store"/></svg></div>
+        <div class="store-card-body">
+          <span class="categoria-loja">Alimentação</span>
+          <h3>Loja de Exemplo 1</h3>
+          <p>Bairro de Demonstração</p>
+          <a class="botao-ver-loja" href="#">Ver Loja</a>
+        </div>
+      </article>
+      <article class="article-class">
+        <div class="store-card-cover" role="img" aria-label="Imagem de demonstração da loja"><svg class="icon"><use href="#i-store"/></svg></div>
+        <div class="store-card-body">
+          <span class="categoria-loja">Pet Shop</span>
+          <h3>Loja de Exemplo 2</h3>
+          <p>Bairro de Demonstração</p>
+          <a class="botao-ver-loja" href="#">Ver Loja</a>
+        </div>
+      </article>
+      <article class="article-class">
+        <div class="store-card-cover" role="img" aria-label="Imagem de demonstração da loja"><svg class="icon"><use href="#i-store"/></svg></div>
+        <div class="store-card-body">
+          <span class="categoria-loja">Beleza</span>
+          <h3>Loja de Exemplo 3</h3>
+          <p>Bairro de Demonstração</p>
+          <a class="botao-ver-loja" href="#">Ver Loja</a>
+        </div>
+      </article>
+      <article class="article-class">
+        <div class="store-card-cover" role="img" aria-label="Imagem de demonstração da loja"><svg class="icon"><use href="#i-store"/></svg></div>
+        <div class="store-card-body">
+          <span class="categoria-loja">Mercados</span>
+          <h3>Loja de Exemplo 4</h3>
+          <p>Bairro de Demonstração</p>
+          <a class="botao-ver-loja" href="#">Ver Loja</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ofertas-titulo">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="ofertas-titulo" class="section-title">Ofertas do Dia</h2>
+          <p class="section-subtitle">Aproveite oportunidades dos comércios da sua região</p>
+        </div>
+      </div>
+    </div>
+    <!--SEM BACKEND: RENDERIZE CARDS COM IMAGEM, NOME, LOJA E PREÇO-->
+    <div class="empty-state">
+      <svg class="icon"><use href="#i-beauty"/></svg>
+      <p>Ainda não há Ofertas Disponíveis hoje, Volte em Breve. Os comerciantes estão preparando novidades!</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="cta-titulo">
+    <div class="container">
+      <div class="cta">
+        <h2 id="cta-titulo">Seu negócio merece ser encontrado.</h2>
+        <p>Faça parte do Perto de Você, divulgue sua loja e conecte-se com novos clientes da sua região!</p>
+        <a class="botao-cadastrar-loja" href="#">Cadastre sua Loja</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo-rodape" href="#" aria-label="Perto de Você - Início">
+          <span class="logo-icon"><svg class="icon"><use href="#i-pin"/></svg></span>
+          <span class="logo-text">Perto de Você</span>
+        </a>
+        <p>A maior rede de apoio e marketplace exclusivo para o comércio da sua cidade, valorize o local, valorize o que é seu!</p>
+        <ul class="social">
+          <li><a href="https://instagram.com/carloskhauan" aria-label="Instagram"><svg class="icon"><use href="#i-insta"/></svg></a></li>
+          <li><a href="https://facebook.com/" aria-label="Facebook"><svg class="icon"><use href="#i-face"/></svg></a></li>
+          <li><a href="https://wa.me/43996010141" aria-label="WhatsApp"><svg class="icon"><use href="#i-whats"/></svg></a></li>
+        </ul>
+      </div>
+      <nav aria-labelledby="f-explorar">
+        <h3 id="f-explorar" class="footer-title">Explorar</h3>
+        <ul class="footer-links">
+          <li><a href="#">Mapa Interativo</a></li>
+          <li><a href="#">Categorias</a></li>
+          <li><a href="#">Ofertas do Dia</a></li>
+          <li><a href="#">Entrega Rápida</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-comerciantes">
+        <h3 id="f-comerciantes" class="footer-title">Para Comerciantes</h3>
+        <ul class="footer-links">
+          <li><a href="#">Cadastrar Loja</a></li>
+          <li><a href="#">Vantagens</a></li>
+          <li><a href="#">FAQ Lojista</a></li>
+          <li><a href="#">Suporte</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-info">
+        <h3 id="f-info" class="footer-title">Informações</h3>
+        <ul class="footer-links">
+          <li><a href="#">Sobre Nós</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Perto de Você. Todos os Direitos Reservados. Feito para fortalecer o Comércio Local.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
