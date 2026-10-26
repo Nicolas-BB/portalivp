@@ -1,0 +1,23 @@
+# Dependências
+node_modules/
+
+# Builds
+dist/
+build/
+coverage/
+
+# Variáveis de ambiente (segredos nunca vão para o repositório)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
