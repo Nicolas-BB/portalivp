@@ -1,0 +1,26 @@
+# Dependabot: abre PRs para atualizar as dependências.
+# Uma vez por semana, as atualizações menores (minor e patch) vêm juntas num PR só.
+# As correções de segurança chegam na hora, fora desse calendário.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore(deps)
+    labels: [dependencies]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions-minor-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: chore(deps)
+    labels: [dependencies]

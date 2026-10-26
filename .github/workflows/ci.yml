@@ -1,0 +1,49 @@
+# Confere o código a cada PR e a cada push na main.
+# Se algum passo falhar, o PR não pode ser mergeado.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Instalar o Node (versão do .nvmrc)
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar as dependências
+        run: npm ci
+
+      - name: Formatação (Prettier)
+        run: npm run format:check
+
+      - name: Tipos (TypeScript)
+        run: npm run typecheck
+
+      - name: Lint (Oxlint)
+        run: npm run lint
+
+      - name: Testes
+        run: npm test
+
+      - name: Testes de ponta a ponta da API
+        run: npm run test:e2e -w @portalivp/api
+
+      - name: Build
+        run: npm run build
+
+      - name: Vulnerabilidades nas dependências
+        run: npm audit --omit=dev

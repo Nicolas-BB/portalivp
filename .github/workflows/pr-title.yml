@@ -1,0 +1,30 @@
+# Confere se o título do PR segue o padrão do projeto:
+#   tipo(escopo): descrição [PI-xx]
+# Ex.: feat(auth): adiciona login com e-mail e senha [PI-10]
+# O título vira o commit na main e entra nas notas da release.
+name: Título do PR
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions: {}
+
+jobs:
+  pr-title:
+    name: pr-title
+    runs-on: ubuntu-latest
+    # Os PRs automáticos do Dependabot não têm tarefa PI: não são conferidos.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    steps:
+      - name: Conferir o título
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(feat|fix|perf|security|docs|refactor|test|chore|ci)(\([a-z0-9-]+\))?: .+ \[PI-[0-9]+\]$'
+          if [[ "$TITLE" =~ $pattern ]]; then
+            echo "Título OK: $TITLE"
+          else
+            echo "::error::Título fora do padrão: \"$TITLE\". Use: tipo(escopo): descrição [PI-xx]. Ex.: feat(auth): adiciona login com e-mail e senha [PI-10]"
+            exit 1
+          fi
