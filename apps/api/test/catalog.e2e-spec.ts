@@ -80,17 +80,20 @@ describe("Catálogo (e2e)", () => {
     await app.close();
   });
 
-  it("lista as categorias sem exigir login", async () => {
+  it("lista as categorias com o slug, sem exigir login", async () => {
     const response = await request(app.getHttpServer())
       .get("/api/categories")
       .expect(200);
-    const names = (response.body as CategoryItem[]).map((c) => c.name);
-    expect(names).toContain(`Categoria de teste ${suffix}`);
+    expect(response.body as CategoryItem[]).toContainEqual({
+      id: categoryId,
+      name: `Categoria de teste ${suffix}`,
+      slug: `categoria-de-teste-${suffix}`,
+    });
   });
 
-  it("mostra só as lojas ativas, filtrando pela categoria", async () => {
+  it("mostra só as lojas ativas, filtrando pelo slug da categoria", async () => {
     const response = await request(app.getHttpServer())
-      .get(`/api/companies?category=${categoryId}`)
+      .get(`/api/companies?category=categoria-de-teste-${suffix}`)
       .expect(200);
     const cards = response.body as CompanyCard[];
 
@@ -106,9 +109,16 @@ describe("Catálogo (e2e)", () => {
     await request(app.getHttpServer()).get("/api/companies").expect(200);
   });
 
-  it("recusa uma categoria que não é um id válido", async () => {
+  it("devolve a lista vazia para um slug que não existe", async () => {
+    const response = await request(app.getHttpServer())
+      .get("/api/companies?category=categoria-que-nao-existe")
+      .expect(200);
+    expect(response.body).toEqual([]);
+  });
+
+  it("recusa uma categoria fora do formato de slug", async () => {
     await request(app.getHttpServer())
-      .get("/api/companies?category=abc")
+      .get("/api/companies?category=Pet%20Shop")
       .expect(400);
   });
 });

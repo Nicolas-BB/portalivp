@@ -8,8 +8,8 @@ import { homeLoader } from "./loader.ts";
 
 // Dados de exemplo, fictícios.
 const categories: CategoryItem[] = [
-  { id: "cat-pet", name: "Pet Shop" },
-  { id: "cat-moda", name: "Moda" },
+  { id: "1", name: "Pet Shop", slug: "pet-shop" },
+  { id: "2", name: "Moda", slug: "moda" },
 ];
 
 const companies: CompanyCard[] = [
@@ -44,8 +44,8 @@ function fakeFetch(input: RequestInfo | URL) {
   if (url.pathname === "/api/categories") {
     return Promise.resolve(Response.json(categories));
   }
-  const categoryId = url.searchParams.get("category");
-  const category = categories.find((c) => c.id === categoryId);
+  const slug = url.searchParams.get("category");
+  const category = categories.find((c) => c.slug === slug);
   const result = category
     ? companies.filter((c) => c.categories.includes(category.name))
     : companies;
@@ -87,9 +87,11 @@ describe("Página inicial", () => {
     );
   });
 
-  it("filtra as lojas ao clicar numa categoria", async () => {
+  it("filtra as lojas ao clicar numa categoria, com o slug no endereço", async () => {
     renderHome();
-    await userEvent.click(await screen.findByRole("link", { name: "Moda" }));
+    const modaLink = await screen.findByRole("link", { name: "Moda" });
+    expect(modaLink).toHaveAttribute("href", "/?categoria=moda");
+    await userEvent.click(modaLink);
 
     expect(
       await screen.findByRole("link", { name: "Moda", current: "page" }),
@@ -103,7 +105,7 @@ describe("Página inicial", () => {
   });
 
   it("avisa quando não há lojas na categoria, com o botão Ver todas", async () => {
-    renderHome("/?categoria=cat-inexistente", (input) => {
+    renderHome("/?categoria=categoria-inexistente", (input) => {
       const url = toUrl(input);
       return Promise.resolve(
         Response.json(url.pathname === "/api/categories" ? categories : []),

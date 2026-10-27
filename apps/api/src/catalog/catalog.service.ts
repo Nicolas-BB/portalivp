@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import type { CategoryItem, CompanyCard } from "@portalivp/shared";
+import { toSlug, type CategoryItem, type CompanyCard } from "@portalivp/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { DATABASE, type Database } from "../database/database.module.js";
 import {
@@ -18,17 +18,30 @@ const HOME_COMPANIES_LIMIT = 8;
 export class CatalogService {
   constructor(@Inject(DATABASE) private readonly db: Database) {}
 
-  // Todas as categorias, em ordem alfabética.
+  // Todas as categorias, em ordem alfabética, com o slug calculado a partir
+  // do nome (decisão HP11-B).
   async listCategories(): Promise<CategoryItem[]> {
-    return this.db
+    const rows = await this.db
       .select({ id: categories.id, name: categories.name })
       .from(categories)
       .orderBy(asc(categories.name));
+    return rows.map((row) => ({ ...row, slug: toSlug(row.name) }));
   }
 
   // As lojas ATIVAS mais recentes (só elas aparecem ao público, M3-B),
-  // opcionalmente só as de uma categoria.
-  async listCompanies(categoryId?: string): Promise<CompanyCard[]> {
+  // opcionalmente só as de uma categoria, informada pelo slug (ex.: "pet-shop").
+  async listCompanies(categorySlug?: string): Promise<CompanyCard[]> {
+    // 0. Com filtro: descobre qual categoria tem esse slug. Se nenhuma tiver,
+    // não há lojas para mostrar.
+    let categoryId: string | undefined;
+    if (categorySlug) {
+      const allCategories = await this.listCategories();
+      categoryId = allCategories.find((c) => c.slug === categorySlug)?.id;
+      if (!categoryId) {
+        return [];
+      }
+    }
+
     // 1. As lojas, com o nome do bairro.
     const rows = await this.db
       .select({

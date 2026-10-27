@@ -5,8 +5,9 @@ import { getJson } from "../../lib/api.ts";
 export type HomeData = {
   categories: CategoryItem[];
   companies: CompanyCard[];
-  // A categoria escolhida no filtro, ou null para "Todas" (decisão HP3-A).
-  selectedCategoryId: string | null;
+  // O slug da categoria escolhida no filtro (ex.: "pet-shop"), ou null para
+  // "Todas" (decisões HP3-A e HP11-B).
+  selectedCategory: string | null;
 };
 
 // Antes de mostrar a página inicial, busca as categorias e as lojas (I3-C).
@@ -14,9 +15,9 @@ export type HomeData = {
 export async function homeLoader({
   request,
 }: LoaderFunctionArgs): Promise<HomeData> {
-  const selectedCategoryId = new URL(request.url).searchParams.get("categoria");
-  const companiesPath = selectedCategoryId
-    ? `/companies?category=${encodeURIComponent(selectedCategoryId)}`
+  const selectedCategory = new URL(request.url).searchParams.get("categoria");
+  const companiesPath = selectedCategory
+    ? `/companies?category=${encodeURIComponent(selectedCategory)}`
     : "/companies";
 
   // As duas buscas ao mesmo tempo, para a página abrir mais rápido.
@@ -25,5 +26,5 @@ export async function homeLoader({
     getJson<CompanyCard[]>(companiesPath),
   ]);
 
-  return { categories, companies, selectedCategoryId };
+  return { categories, companies, selectedCategory };
 }

@@ -5,6 +5,8 @@
 export type CategoryItem = {
   id: string;
   name: string;
+  // Usado no endereço do filtro, ex.: /?categoria=pet-shop (decisão HP11-B).
+  slug: string;
 };
 
 // Um item de GET /api/companies: o que o cartão da loja mostra.

@@ -9,8 +9,7 @@ import type { HomeData } from "./loader.ts";
 // Sem a barra de busca (HP2), as ofertas (HP6) e o convite ao comerciante (HP7),
 // que entram quando a busca, as promoções e o cadastro de empresas existirem.
 export function HomePage() {
-  const { categories, companies, selectedCategoryId } =
-    useLoaderData<HomeData>();
+  const { categories, companies, selectedCategory } = useLoaderData<HomeData>();
 
   return (
     <>
@@ -37,7 +36,7 @@ export function HomePage() {
               to="/"
               preventScrollReset
               className={styles.category}
-              aria-current={selectedCategoryId === null ? "page" : undefined}
+              aria-current={selectedCategory === null ? "page" : undefined}
             >
               Todas
             </Link>
@@ -47,11 +46,11 @@ export function HomePage() {
             return (
               <li key={category.id}>
                 <Link
-                  to={`/?categoria=${category.id}`}
+                  to={`/?categoria=${category.slug}`}
                   preventScrollReset
                   className={styles.category}
                   aria-current={
-                    selectedCategoryId === category.id ? "page" : undefined
+                    selectedCategory === category.slug ? "page" : undefined
                   }
                 >
                   <Icon size={24} aria-hidden="true" />
@@ -80,7 +79,7 @@ export function HomePage() {
         ) : (
           // Sem lojas (decisão HP8).
           <div className={styles.empty}>
-            {selectedCategoryId ? (
+            {selectedCategory ? (
               <>
                 <p>Nenhuma loja nesta categoria ainda.</p>
                 <LinkButton to="/" preventScrollReset variant="secondary">

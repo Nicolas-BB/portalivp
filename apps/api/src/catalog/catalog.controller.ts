@@ -4,9 +4,14 @@ import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
 import { z } from "zod";
 import { CatalogService } from "./catalog.service.js";
 
-// O filtro de categoria, se vier, precisa ser um id (UUID) válido.
+// O filtro de categoria, se vier, precisa ter o formato de um slug
+// (ex.: "pet-shop"): só letras minúsculas sem acento, números e hífens.
 const companiesQuerySchema = z.object({
-  category: z.uuid().optional(),
+  category: z
+    .string()
+    .max(100)
+    .regex(/^[a-z0-9-]+$/)
+    .optional(),
 });
 
 // Rotas públicas do catálogo (decisão HP9): qualquer visitante pode ver,
@@ -22,7 +27,7 @@ export class CatalogController {
     return this.catalog.listCategories();
   }
 
-  // GET /api/companies e GET /api/companies?category=<id>
+  // GET /api/companies e GET /api/companies?category=<slug> (ex.: pet-shop)
   @Get("companies")
   listCompanies(@Query() query: unknown): Promise<CompanyCard[]> {
     const parsed = companiesQuerySchema.safeParse(query);
