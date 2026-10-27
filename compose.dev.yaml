@@ -1,0 +1,35 @@
+# Serviços para o desenvolvimento local: o banco (Postgres) e uma caixa de e-mail falsa (Mailpit).
+# Suba com `npm run services:up` e desligue com `npm run services:down`.
+# A API e o front rodam fora daqui, com `npm run dev:api` e `npm run dev:web`.
+# As senhas vêm do arquivo .env da raiz (copie o .env.example).
+name: portalivp-dev
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: portalivp
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_OWNER_PASSWORD: ${DB_OWNER_PASSWORD}
+      DB_APP_PASSWORD: ${DB_APP_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      # Os dados ficam num volume, para sobreviver quando o container é recriado.
+      - db-data:/var/lib/postgresql
+      # Scripts que o Postgres roda só na primeira vez que sobe (criam as roles).
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d portalivp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:v1.32
+    ports:
+      - "127.0.0.1:8025:8025" # página web: http://localhost:8025
+      - "127.0.0.1:1025:1025" # recebe os e-mails enviados pela API (SMTP)
+
+volumes:
+  db-data:
