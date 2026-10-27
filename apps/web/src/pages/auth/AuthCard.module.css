@@ -1,0 +1,68 @@
+.page {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 6vw, 56px) var(--gutter);
+  background: var(--gray-light);
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(24px, 6vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+.head {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(24px, 5vw, 28px);
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: var(--gray);
+}
+
+/* Partes usadas pelas duas telas (entrar e cadastrar). */
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.formError {
+  padding: 12px 14px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: #fef3f2;
+  color: var(--danger);
+  font-size: var(--font-size-small);
+}
+
+.submit {
+  width: 100%;
+  min-height: 52px;
+  font-size: var(--font-size-base);
+}
+
+.switch {
+  margin-top: 24px;
+  text-align: center;
+  font-size: var(--font-size-small);
+  color: var(--gray);
+}
+
+.link {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.link:hover {
+  color: var(--green-dark);
+}
