@@ -1,0 +1,58 @@
+/* O cabeçalho fica preso no topo ao rolar a página, como no protótipo. */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 72px;
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+  font-size: var(--font-size-small);
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gray);
+}
+
+.signIn {
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.signIn:hover {
+  color: var(--green);
+}
+
+/* No celular, a cidade sai para sobrar espaço para os botões (como no protótipo). */
+@media (max-width: 768px) {
+  .inner {
+    gap: 12px;
+  }
+
+  .nav {
+    gap: 14px;
+  }
+
+  .location {
+    display: none;
+  }
+}

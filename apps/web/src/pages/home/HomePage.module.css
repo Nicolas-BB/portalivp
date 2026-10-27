@@ -1,0 +1,38 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: clamp(40px, 7vw, 72px) var(--gutter) clamp(48px, 8vw, 88px);
+  text-align: center;
+}
+
+.tag {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--green-light);
+  color: var(--green);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+/* No protótipo faltava uma vírgula neste clamp, e o navegador ignorava a regra. */
+.title {
+  margin-top: 20px;
+  max-width: 760px;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.highlight {
+  color: var(--green);
+}
+
+.subtitle {
+  margin-top: 16px;
+  font-size: clamp(16px, 2vw, 18px);
+  color: var(--gray);
+}

@@ -95,6 +95,22 @@ packages/
 
 O repositório é um monorepo com **npm workspaces**: o `package.json` da raiz diz onde estão os três projetos, o `npm install` instala tudo de uma vez e o front e a API usam o `@portalivp/shared` como se fosse uma biblioteca.
 
+### O front (`apps/web/src`)
+
+```
+main.tsx            Liga o React e o roteador
+routes.tsx          O "mapa" das páginas (React Router, com loaders)
+site.ts             Nome do site e cidade (mudou o nome? muda só aqui)
+styles/theme.css    Cores, fontes e tamanhos do protótipo (variáveis CSS)
+layout/             Cabeçalho, rodapé e a moldura das páginas
+components/         Peças reutilizáveis: botão, campo de formulário...
+pages/              Uma pasta por página
+```
+
+Cada componente fica numa pasta com o seu CSS Module (ex.: `Button/Button.tsx` e `Button/Button.module.css`). Use as variáveis do `theme.css` (ex.: `var(--green)`) em vez de cores soltas. Os ícones vêm da biblioteca [Lucide](https://lucide.dev/icons/) (`lucide-react`).
+
+O front sempre chama a API por `/api/...`: no desenvolvimento, o Vite repassa esses pedidos para a API (`localhost:3000`); na produção, o Nginx faz o mesmo.
+
 ## Como contribuir
 
 1. Pegue uma tarefa na [Lista de tarefas](https://app.notion.com/p/363bb280d4ce8054aca3e8508dfbfdbe) e anote o ID dela (ex.: `PI-10`).
