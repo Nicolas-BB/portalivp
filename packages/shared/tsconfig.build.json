@@ -1,0 +1,6 @@
+{
+  // Para compilar o pacote: igual ao tsconfig.json, mas sem os arquivos de
+  // teste, que não precisam ir para a pasta dist.
+  "extends": "./tsconfig.json",
+  "exclude": ["src/**/*.test.ts"]
+}

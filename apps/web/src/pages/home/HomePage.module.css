@@ -36,3 +36,110 @@
   font-size: clamp(16px, 2vw, 18px);
   color: var(--gray);
 }
+
+/* Blocos da página (categorias e lojas) */
+.section {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: 0 var(--gutter) clamp(40px, 6vw, 72px);
+}
+
+.sectionTitle {
+  font-size: clamp(20px, 3vw, 24px);
+  font-weight: 700;
+}
+
+.sectionSubtitle {
+  margin-top: 4px;
+  color: var(--gray);
+}
+
+/* Categorias: 9 cartões (Todas + 8) numa fileira no computador */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  min-height: 96px;
+  padding: 18px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--gray-light);
+  color: var(--green);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  text-align: center;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.category:hover {
+  background: var(--white);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+/* A categoria escolhida fica em destaque. */
+.category[aria-current="page"] {
+  background: var(--green);
+  color: var(--white);
+}
+
+/* Lojas: 4 cartões por fileira no computador */
+.stores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stores > li {
+  display: grid;
+}
+
+/* Sem lojas */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 40px 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--gray-light);
+  color: var(--gray);
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .categories {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .stores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .categories {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .stores {
+    grid-template-columns: 1fr;
+  }
+}
