@@ -32,10 +32,17 @@ npm install
 # 3. Subir o banco (Postgres) e a caixa de e-mail falsa (Mailpit)
 npm run services:up
 
-# 4. Em um terminal: a API (http://localhost:3000/api)
+# 4. Criar as tabelas e preencher as listas fixas (categorias e bairros)
+npm run db:migrate
+npm run db:seed
+
+# 5. (Opcional) Criar lojas e produtos de exemplo. Nunca na produção!
+npm run db:seed:demo
+
+# 6. Em um terminal: a API (http://localhost:3000/api)
 npm run dev:api
 
-# 5. Em outro terminal: o front (o endereço aparece no terminal)
+# 7. Em outro terminal: o front (o endereço aparece no terminal)
 npm run dev:web
 ```
 
@@ -57,6 +64,8 @@ Todos rodam na raiz do repositório.
 | `npm run services:down` | Desliga o banco e o Mailpit (os dados continuam salvos)    |
 | `npm run db:generate`   | Gera uma migration a partir das mudanças no schema         |
 | `npm run db:migrate`    | Aplica as migrations no banco                              |
+| `npm run db:seed`       | Preenche categorias e bairros (pode rodar de novo)         |
+| `npm run db:seed:demo`  | Cria lojas e produtos de exemplo (só no desenvolvimento)   |
 | `npm run dev:api`       | Sobe a API em modo de desenvolvimento (reinicia ao salvar) |
 | `npm run dev:web`       | Sobe o front em modo de desenvolvimento                    |
 | `npm run dev:shared`    | Recompila o pacote compartilhado a cada mudança            |
