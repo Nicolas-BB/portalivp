@@ -9,6 +9,10 @@
     "node": "^24"
   },
   "scripts": {
+    "services:up": "docker compose -f compose.dev.yaml up -d",
+    "services:down": "docker compose -f compose.dev.yaml down",
+    "db:generate": "npm run db:generate -w @portalivp/api",
+    "db:migrate": "npm run db:migrate -w @portalivp/api",
     "dev:shared": "npm run dev -w @portalivp/shared",
     "dev:api": "npm run build -w @portalivp/shared && npm run start:dev -w @portalivp/api",
     "dev:web": "npm run build -w @portalivp/shared && npm run dev -w @portalivp/web",

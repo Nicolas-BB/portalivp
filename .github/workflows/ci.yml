@@ -41,6 +41,10 @@ jobs:
 
       - name: Testes de ponta a ponta da API
         run: npm run test:e2e -w @portalivp/api
+        env:
+          # A API exige esta variável para subir. Os testes de agora não
+          # consultam o banco, então o endereço não precisa existir.
+          DATABASE_URL: postgres://ci:ci@localhost:5432/ci
 
       - name: Build
         run: npm run build

@@ -22,9 +22,10 @@ Lembretes:
 
 - O PI-9 (script inicial do banco) depende do PI-32 (lista de bairros de Ivaiporã), que é do Analista.
 - O `multer` 2.4.0, travado pelo Nest 12.2, tem uma vulnerabilidade alta: o PI-36 força o 2.5.0 com `overrides`, a ser removido quando o Nest atualizar.
+- O Dependabot ignora o TypeScript 7, o Vitest 5 e as versões grandes do `@types/node` (regras no `.github/dependabot.yml`). Reavaliar o TypeScript 7 quando o Nest CLI suportar e o Vitest 5 quando o modelo do `nest new` adotar; o `@types/node` sobe junto com o Node.
 - O `gh` precisa estar com a conta **Nicolas-BB** ativa (`gh auth switch`) para mexer neste repositório.
 
-Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `packages/shared`), TypeScript 6.0 (o 7 ainda não é suportado pelo Nest CLI), Oxlint, Prettier (estilo padrão), Vitest, Docker Compose para os serviços locais (Postgres 18 e Mailpit, a partir do PI-8).
+Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `packages/shared`), TypeScript 6.0 (o 7 ainda não é suportado pelo Nest CLI), Oxlint, Prettier (estilo padrão), Vitest, Docker Compose para os serviços locais (`compose.dev.yaml`: Postgres 18 na 5432 e Mailpit na 8025/1025; o nome `compose.yaml` fica reservado para a produção), um `.env` só na raiz (validado com Zod ao subir a API), Drizzle com o driver `pg`. A API conecta com a role `portalivp_app`; as migrations usam a `portalivp_owner`. Todas as rotas da API ficam sob `/api`.
 
 ## Como trabalhar com o usuário
 

@@ -18,7 +18,7 @@ Projeto acadêmico (PI) em desenvolvimento.
 ## Pré-requisitos
 
 - [Node.js 24](https://nodejs.org/) (LTS), que já vem com o npm
-- [Docker](https://www.docker.com/) para os serviços locais (banco e e-mail de teste), a partir da tarefa PI-8
+- [Docker](https://www.docker.com/) para os serviços locais (banco e e-mail de teste)
 
 ## Como rodar
 
@@ -26,12 +26,24 @@ Projeto acadêmico (PI) em desenvolvimento.
 # 1. Instalar as dependências dos três projetos de uma vez
 npm install
 
-# 2. Em um terminal: a API (http://localhost:3000)
+# 2. Criar o .env na raiz, copiando o .env.example
+#    (os valores do exemplo já servem para o desenvolvimento)
+
+# 3. Subir o banco (Postgres) e a caixa de e-mail falsa (Mailpit)
+npm run services:up
+
+# 4. Em um terminal: a API (http://localhost:3000/api)
 npm run dev:api
 
-# 3. Em outro terminal: o front (o endereço aparece no terminal)
+# 5. Em outro terminal: o front (o endereço aparece no terminal)
 npm run dev:web
 ```
+
+Para conferir se a API está conectada ao banco, abra <http://localhost:3000/api/health>: a resposta deve ser `{"status":"ok"}`.
+
+Os e-mails que a API envia em desenvolvimento não saem para a internet: eles aparecem no Mailpit, em <http://localhost:8025>.
+
+No banco, a API conecta com a role `portalivp_app`, que só lê e grava dados. Quem cria e altera tabelas são as migrations, com a role dona `portalivp_owner`. As duas são criadas pelo script `database/init/01-roles.sh` na primeira vez que o Postgres sobe.
 
 Mudou algo em `packages/shared` com tudo rodando? Deixe `npm run dev:shared` aberto num terceiro terminal: ele recompila o pacote a cada mudança.
 
@@ -39,17 +51,21 @@ Mudou algo em `packages/shared` com tudo rodando? Deixe `npm run dev:shared` abe
 
 Todos rodam na raiz do repositório.
 
-| Comando                | O que faz                                                  |
-| ---------------------- | ---------------------------------------------------------- |
-| `npm run dev:api`      | Sobe a API em modo de desenvolvimento (reinicia ao salvar) |
-| `npm run dev:web`      | Sobe o front em modo de desenvolvimento                    |
-| `npm run dev:shared`   | Recompila o pacote compartilhado a cada mudança            |
-| `npm run build`        | Compila o pacote compartilhado, a API e o front            |
-| `npm run typecheck`    | Confere os tipos do TypeScript nos três projetos           |
-| `npm run lint`         | Procura erros prováveis no código (Oxlint)                 |
-| `npm run format`       | Formata o código (Prettier)                                |
-| `npm run format:check` | Confere se o código está formatado                         |
-| `npm test`             | Roda os testes                                             |
+| Comando                 | O que faz                                                  |
+| ----------------------- | ---------------------------------------------------------- |
+| `npm run services:up`   | Sobe o banco e o Mailpit (Docker)                          |
+| `npm run services:down` | Desliga o banco e o Mailpit (os dados continuam salvos)    |
+| `npm run db:generate`   | Gera uma migration a partir das mudanças no schema         |
+| `npm run db:migrate`    | Aplica as migrations no banco                              |
+| `npm run dev:api`       | Sobe a API em modo de desenvolvimento (reinicia ao salvar) |
+| `npm run dev:web`       | Sobe o front em modo de desenvolvimento                    |
+| `npm run dev:shared`    | Recompila o pacote compartilhado a cada mudança            |
+| `npm run build`         | Compila o pacote compartilhado, a API e o front            |
+| `npm run typecheck`     | Confere os tipos do TypeScript nos três projetos           |
+| `npm run lint`          | Procura erros prováveis no código (Oxlint)                 |
+| `npm run format`        | Formata o código (Prettier)                                |
+| `npm run format:check`  | Confere se o código está formatado                         |
+| `npm test`              | Roda os testes                                             |
 
 ## Estrutura
 
