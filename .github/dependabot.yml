@@ -21,6 +21,12 @@ updates:
       # @types/node descreve o Node em uso (o 24, decisão W1-A), então só sobe junto com ele (DB2-A).
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # Vitest: ficamos na versão que o gerador do Nest entrega (a 4), decisão DB3-B.
+      # Reavaliar quando o modelo do `nest new` passar para o 5.
+      - dependency-name: vitest
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/coverage-v8"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
