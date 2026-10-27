@@ -33,6 +33,10 @@
   color: var(--gray);
 }
 
+.greeting {
+  font-weight: 600;
+}
+
 .signIn {
   font-weight: 600;
   transition: color var(--transition);
