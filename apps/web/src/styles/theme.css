@@ -1,0 +1,86 @@
+/* Tema do site: as variáveis do protótipo do Carlos e o CSS base de todas as páginas.
+   Os componentes usam estas variáveis nos seus CSS Modules (decisão S8-A). */
+
+:root {
+  /* Cores do protótipo */
+  --green: #269f55;
+  --green-dark: #218548;
+  --green-light: #eaf8ef;
+  --navy: #151b2b;
+  --gray: #687386;
+  --gray-light: #f2f4f7;
+  --border: #e9edf2;
+  --white: #ffffff;
+  --danger: #d92d20;
+
+  /* Tamanhos de letra (decisão FE4-A): texto normal com 16 px, nada abaixo de 14 px */
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+
+  /* Fonte Inter, instalada no projeto (decisão FE5-A) */
+  --font-family:
+    "Inter Variable", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* Formas, sombras e espaços do protótipo */
+  --shadow-md: 0 10px 30px rgba(21, 27, 43, 0.1);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --container: 1280px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --transition: 0.2s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--navy);
+  background: var(--white);
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Contorno visível ao navegar pelo teclado (acessibilidade) */
+:focus-visible {
+  outline: 3px solid rgba(38, 159, 85, 0.45);
+  outline-offset: 2px;
+}
+
+/* Quem pede menos movimento no sistema não vê animações */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

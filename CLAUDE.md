@@ -30,6 +30,8 @@ Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `pack
 
 Login: Better Auth (`apps/api/src/auth/auth.ts`) ligado ao Nest pela `@thallesp/nestjs-better-auth`, que **protege todas as rotas por padrão**: rota pública precisa de `@AllowAnonymous()`, e o usuário logado vem de `@Session()`. As rotas de cadastro, login e logout são do próprio Better Auth (`/api/auth/...`). Os comandos do Better Auth (`auth:generate`, `auth:create-admin`) usam `src/auth/cli.ts`. Atenção: o Better Auth desliga a checagem de origem dentro dos testes; por isso o `disableOriginCheck: false` é explícito, e não deve ser removido.
 
+Front (`apps/web/src`): React Router no modo com loaders e actions (`routes.tsx`, `createBrowserRouter`), componentes próprios com CSS Modules e as variáveis de `styles/theme.css` (cores do protótipo do Carlos; texto com 16 px e nada abaixo de 14 px, para o público idoso), fonte Inter instalada (`@fontsource-variable/inter`), ícones da `lucide-react`. Nome do site e cidade em `site.ts` ("Perto de Você", provisório). O Vite repassa `/api` para a API (`vite.config.ts`). Conferir telas com capturas no celular de 360 px e no computador: o Edge em modo invisível tem largura mínima de ~500 px, então a captura de celular precisa da página dentro de um `iframe` de 360 px.
+
 ## Como trabalhar com o usuário
 
 - Siga a skill **`modo-de-trabalho`** (decisões, pt-BR, PRs, releases), com as diferenças deste projeto: **Notion** no lugar do Linear, **npm** no lugar do pnpm e **deploy manual** na VPS, sem workflow de produção.

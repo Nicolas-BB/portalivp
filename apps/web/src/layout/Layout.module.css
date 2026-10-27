@@ -1,0 +1,27 @@
+/* Ocupa a altura toda da tela, para o rodapé ficar sempre embaixo. */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1;
+}
+
+/* Escondido fora da tela; aparece quando recebe o foco pelo teclado (Tab). */
+.skipLink {
+  position: absolute;
+  left: -9999px;
+}
+
+.skipLink:focus {
+  left: 16px;
+  top: 8px;
+  z-index: 100;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
