@@ -11,6 +11,7 @@ import { SignInPage } from "./pages/auth/SignInPage.tsx";
 import { SignUpPage } from "./pages/auth/SignUpPage.tsx";
 import { ErrorPage } from "./pages/error/ErrorPage.tsx";
 import { HomePage } from "./pages/home/HomePage.tsx";
+import { homeLoader } from "./pages/home/loader.ts";
 import { NotFoundPage } from "./pages/not-found/NotFoundPage.tsx";
 
 // O "mapa" do site: cada endereço e a página que ele mostra.
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
     // Se algo der errado ao abrir uma página, mostra esta tela no lugar.
     ErrorBoundary: ErrorPage,
     children: [
-      { index: true, Component: HomePage },
+      { index: true, loader: homeLoader, Component: HomePage },
       {
         path: "entrar",
         loader: redirectIfSignedIn,

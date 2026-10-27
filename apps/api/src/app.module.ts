@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 import { createAuth } from "./auth/auth.js";
+import { CatalogModule } from "./catalog/catalog.module.js";
 import { envSchema, type Env } from "./config/env.js";
 import {
   DATABASE,
@@ -34,6 +35,7 @@ import { MeModule } from "./me/me.module.js";
     }),
     HealthModule,
     MeModule,
+    CatalogModule,
   ],
 })
 export class AppModule {}
