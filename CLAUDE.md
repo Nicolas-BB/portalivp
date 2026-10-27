@@ -28,6 +28,8 @@ Lembretes:
 
 Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `packages/shared`), TypeScript 6.0 (o 7 ainda não é suportado pelo Nest CLI), Oxlint, Prettier (estilo padrão), Vitest, Docker Compose para os serviços locais (`compose.dev.yaml`: Postgres 18 na 5432 e Mailpit na 8025/1025; o nome `compose.yaml` fica reservado para a produção), um `.env` só na raiz (validado com Zod ao subir a API), Drizzle com o driver `pg` (schema em `apps/api/src/database/schema/`, um arquivo por assunto; migrations em `apps/api/drizzle/`; scripts iniciais `db:seed`, que roda também na produção, e `db:seed:demo`, só no desenvolvimento). A API conecta com a role `portalivp_app`; as migrations usam a `portalivp_owner`. Todas as rotas da API ficam sob `/api`.
 
+Login: Better Auth (`apps/api/src/auth/auth.ts`) ligado ao Nest pela `@thallesp/nestjs-better-auth`, que **protege todas as rotas por padrão**: rota pública precisa de `@AllowAnonymous()`, e o usuário logado vem de `@Session()`. As rotas de cadastro, login e logout são do próprio Better Auth (`/api/auth/...`). Os comandos do Better Auth (`auth:generate`, `auth:create-admin`) usam `src/auth/cli.ts`. Atenção: o Better Auth desliga a checagem de origem dentro dos testes; por isso o `disableOriginCheck: false` é explícito, e não deve ser removido.
+
 ## Como trabalhar com o usuário
 
 - Siga a skill **`modo-de-trabalho`** (decisões, pt-BR, PRs, releases), com as diferenças deste projeto: **Notion** no lugar do Linear, **npm** no lugar do pnpm e **deploy manual** na VPS, sem workflow de produção.

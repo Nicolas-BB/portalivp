@@ -14,6 +14,30 @@ jobs:
   ci:
     name: ci
     runs-on: ubuntu-latest
+
+    # Um Postgres de verdade, ligado ao lado do job e apagado no fim (decisão AU9-A).
+    # Cada execução começa com um banco vazio.
+    services:
+      db:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: portalivp
+          POSTGRES_PASSWORD: ci-superuser
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d portalivp"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # Variáveis só para o CI: senhas e segredo fictícios, que não existem em lugar nenhum.
+    env:
+      DATABASE_URL: postgres://portalivp_app:ci-app@localhost:5432/portalivp
+      DATABASE_OWNER_URL: postgres://portalivp_owner:ci-owner@localhost:5432/portalivp
+      BETTER_AUTH_SECRET: ci-only-secret-not-for-production-0000
+      BETTER_AUTH_URL: http://localhost:5173
+
     steps:
       - name: Baixar o código
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -39,12 +63,23 @@ jobs:
       - name: Testes
         run: npm test
 
+      # O mesmo script que cria as roles no desenvolvimento (database/init/01-roles.sh).
+      # O banco do CI sobe antes de o código ser baixado, então o script roda aqui.
+      - name: Criar as roles do banco
+        run: sh database/init/01-roles.sh
+        env:
+          PGHOST: localhost
+          PGPASSWORD: ci-superuser
+          POSTGRES_USER: postgres
+          POSTGRES_DB: portalivp
+          DB_OWNER_PASSWORD: ci-owner
+          DB_APP_PASSWORD: ci-app
+
+      - name: Aplicar as migrations
+        run: npm run db:migrate
+
       - name: Testes de ponta a ponta da API
         run: npm run test:e2e -w @portalivp/api
-        env:
-          # A API exige esta variável para subir. Os testes de agora não
-          # consultam o banco, então o endereço não precisa existir.
-          DATABASE_URL: postgres://ci:ci@localhost:5432/ci
 
       - name: Build
         run: npm run build

@@ -52,29 +52,36 @@ Os e-mails que a API envia em desenvolvimento não saem para a internet: eles ap
 
 No banco, a API conecta com a role `portalivp_app`, que só lê e grava dados. Quem cria e altera tabelas são as migrations, com a role dona `portalivp_owner`. As duas são criadas pelo script `database/init/01-roles.sh` na primeira vez que o Postgres sobe.
 
+### Login
+
+O cadastro, o login e o logout são do Better Auth, em `/api/auth/...` (ex.: `POST /api/auth/sign-up/email`). Todas as outras rotas da API exigem login por padrão; uma rota pública precisa de `@AllowAnonymous()`. A rota `GET /api/me` devolve os dados de quem está logado.
+
+Para criar o administrador, rode `npm run auth:create-admin` e responda às perguntas. A senha é digitada na hora e não fica salva em lugar nenhum.
+
 Mudou algo em `packages/shared` com tudo rodando? Deixe `npm run dev:shared` aberto num terceiro terminal: ele recompila o pacote a cada mudança.
 
 ## Comandos
 
 Todos rodam na raiz do repositório.
 
-| Comando                 | O que faz                                                  |
-| ----------------------- | ---------------------------------------------------------- |
-| `npm run services:up`   | Sobe o banco e o Mailpit (Docker)                          |
-| `npm run services:down` | Desliga o banco e o Mailpit (os dados continuam salvos)    |
-| `npm run db:generate`   | Gera uma migration a partir das mudanças no schema         |
-| `npm run db:migrate`    | Aplica as migrations no banco                              |
-| `npm run db:seed`       | Preenche categorias e bairros (pode rodar de novo)         |
-| `npm run db:seed:demo`  | Cria lojas e produtos de exemplo (só no desenvolvimento)   |
-| `npm run dev:api`       | Sobe a API em modo de desenvolvimento (reinicia ao salvar) |
-| `npm run dev:web`       | Sobe o front em modo de desenvolvimento                    |
-| `npm run dev:shared`    | Recompila o pacote compartilhado a cada mudança            |
-| `npm run build`         | Compila o pacote compartilhado, a API e o front            |
-| `npm run typecheck`     | Confere os tipos do TypeScript nos três projetos           |
-| `npm run lint`          | Procura erros prováveis no código (Oxlint)                 |
-| `npm run format`        | Formata o código (Prettier)                                |
-| `npm run format:check`  | Confere se o código está formatado                         |
-| `npm test`              | Roda os testes                                             |
+| Comando                     | O que faz                                                  |
+| --------------------------- | ---------------------------------------------------------- |
+| `npm run services:up`       | Sobe o banco e o Mailpit (Docker)                          |
+| `npm run services:down`     | Desliga o banco e o Mailpit (os dados continuam salvos)    |
+| `npm run db:generate`       | Gera uma migration a partir das mudanças no schema         |
+| `npm run db:migrate`        | Aplica as migrations no banco                              |
+| `npm run db:seed`           | Preenche categorias e bairros (pode rodar de novo)         |
+| `npm run db:seed:demo`      | Cria lojas e produtos de exemplo (só no desenvolvimento)   |
+| `npm run auth:create-admin` | Cria o administrador (pede o e-mail e a senha)             |
+| `npm run dev:api`           | Sobe a API em modo de desenvolvimento (reinicia ao salvar) |
+| `npm run dev:web`           | Sobe o front em modo de desenvolvimento                    |
+| `npm run dev:shared`        | Recompila o pacote compartilhado a cada mudança            |
+| `npm run build`             | Compila o pacote compartilhado, a API e o front            |
+| `npm run typecheck`         | Confere os tipos do TypeScript nos três projetos           |
+| `npm run lint`              | Procura erros prováveis no código (Oxlint)                 |
+| `npm run format`            | Formata o código (Prettier)                                |
+| `npm run format:check`      | Confere se o código está formatado                         |
+| `npm test`                  | Roda os testes                                             |
 
 ## Estrutura
 

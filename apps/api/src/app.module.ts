@@ -1,10 +1,15 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { AppController } from "./app.controller.js";
-import { AppService } from "./app.service.js";
-import { envSchema } from "./config/env.js";
-import { DatabaseModule } from "./database/database.module.js";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { AuthModule } from "@thallesp/nestjs-better-auth";
+import { createAuth } from "./auth/auth.js";
+import { envSchema, type Env } from "./config/env.js";
+import {
+  DATABASE,
+  DatabaseModule,
+  type Database,
+} from "./database/database.module.js";
 import { HealthModule } from "./health/health.module.js";
+import { MeModule } from "./me/me.module.js";
 
 @Module({
   imports: [
@@ -15,9 +20,20 @@ import { HealthModule } from "./health/health.module.js";
       validate: (config) => envSchema.parse(config),
     }),
     DatabaseModule,
+    // Login com o Better Auth (decisão AU1-A). Usa a mesma conexão com o banco
+    // e as mesmas variáveis validadas da API. Protege TODAS as rotas por padrão:
+    // uma rota pública precisa de @AllowAnonymous().
+    AuthModule.forRootAsync({
+      inject: [DATABASE, ConfigService],
+      useFactory: (db: Database, config: ConfigService<Env, true>) => ({
+        auth: createAuth(db, {
+          baseURL: config.get("BETTER_AUTH_URL", { infer: true }),
+          secret: config.get("BETTER_AUTH_SECRET", { infer: true }),
+        }),
+      }),
+    }),
     HealthModule,
+    MeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
