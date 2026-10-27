@@ -9,13 +9,14 @@ import { ConfigService } from "@nestjs/config";
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import type { Env } from "../config/env.js";
+import * as schema from "./schema/index.js";
 
 // Nome usado para pedir a conexão com o banco em qualquer parte da API:
 // constructor(@Inject(DATABASE) private readonly db: Database) {}
 export const DATABASE = Symbol("DATABASE");
 
 // O Drizzle por cima, e o Pool do pg (o conjunto de conexões) em $client.
-export type Database = NodePgDatabase & { $client: Pool };
+export type Database = NodePgDatabase<typeof schema> & { $client: Pool };
 
 const logger = new Logger("Database");
 
@@ -31,7 +32,8 @@ function createDatabase(config: ConfigService<Env, true>): Database {
     logger.error(`Conexão com o banco perdida: ${error.message}`);
   });
 
-  return drizzle({ client: pool });
+  // Passar o schema permite consultas como db.query.companies.findMany().
+  return drizzle({ client: pool, schema });
 }
 
 // @Global: a conexão fica disponível para todos os módulos, sem importar este em cada um.

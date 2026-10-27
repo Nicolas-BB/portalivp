@@ -20,12 +20,13 @@ Tudo fica no **Notion do grupo**, não no Linear nem em `docs/`:
 
 Lembretes:
 
-- O PI-9 (script inicial do banco) depende do PI-32 (lista de bairros de Ivaiporã), que é do Analista.
-- O `multer` 2.4.0, travado pelo Nest 12.2, tem uma vulnerabilidade alta: o PI-36 força o 2.5.0 com `overrides`, a ser removido quando o Nest atualizar.
+- O `npm run db:seed` usa bairros fictícios ("Bairro Exemplo 1" a "6") até o Analista entregar a lista oficial de Ivaiporã (PI-32, decisão E1-A). Quando chegar, trocar os nomes em `apps/api/src/database/seeds/seed.ts`.
+- `overrides` no `package.json` da raiz, a remover quando as dependências corrigirem: `multer` 2.5.0 (o Nest 12.2 trava o 2.4.0, vulnerável) e o `esbuild` dentro do `@esbuild-kit/core-utils` (o `drizzle-kit` traz uma versão vulnerável).
+- O schema das tabelas do Better Auth (`apps/api/src/database/schema/auth.ts`) é **gerado** pelo `npm run auth:generate -w @portalivp/api`: não edite à mão, gere de novo (ex.: ao adicionar um plugin).
 - O Dependabot ignora o TypeScript 7, o Vitest 5 e as versões grandes do `@types/node` (regras no `.github/dependabot.yml`). Reavaliar o TypeScript 7 quando o Nest CLI suportar e o Vitest 5 quando o modelo do `nest new` adotar; o `@types/node` sobe junto com o Node.
 - O `gh` precisa estar com a conta **Nicolas-BB** ativa (`gh auth switch`) para mexer neste repositório.
 
-Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `packages/shared`), TypeScript 6.0 (o 7 ainda não é suportado pelo Nest CLI), Oxlint, Prettier (estilo padrão), Vitest, Docker Compose para os serviços locais (`compose.dev.yaml`: Postgres 18 na 5432 e Mailpit na 8025/1025; o nome `compose.yaml` fica reservado para a produção), um `.env` só na raiz (validado com Zod ao subir a API), Drizzle com o driver `pg`. A API conecta com a role `portalivp_app`; as migrations usam a `portalivp_owner`. Todas as rotas da API ficam sob `/api`.
+Stack de ferramentas: Node 24 LTS, npm workspaces (`apps/web`, `apps/api`, `packages/shared`), TypeScript 6.0 (o 7 ainda não é suportado pelo Nest CLI), Oxlint, Prettier (estilo padrão), Vitest, Docker Compose para os serviços locais (`compose.dev.yaml`: Postgres 18 na 5432 e Mailpit na 8025/1025; o nome `compose.yaml` fica reservado para a produção), um `.env` só na raiz (validado com Zod ao subir a API), Drizzle com o driver `pg` (schema em `apps/api/src/database/schema/`, um arquivo por assunto; migrations em `apps/api/drizzle/`; scripts iniciais `db:seed`, que roda também na produção, e `db:seed:demo`, só no desenvolvimento). A API conecta com a role `portalivp_app`; as migrations usam a `portalivp_owner`. Todas as rotas da API ficam sob `/api`.
 
 ## Como trabalhar com o usuário
 

@@ -13,6 +13,8 @@
     "services:down": "docker compose -f compose.dev.yaml down",
     "db:generate": "npm run db:generate -w @portalivp/api",
     "db:migrate": "npm run db:migrate -w @portalivp/api",
+    "db:seed": "npm run db:seed -w @portalivp/api",
+    "db:seed:demo": "npm run db:seed:demo -w @portalivp/api",
     "dev:shared": "npm run dev -w @portalivp/shared",
     "dev:api": "npm run build -w @portalivp/shared && npm run start:dev -w @portalivp/api",
     "dev:web": "npm run build -w @portalivp/shared && npm run dev -w @portalivp/web",
@@ -30,6 +32,9 @@
     "typescript": "~6.0.3"
   },
   "overrides": {
-    "multer": "^2.5.0"
+    "multer": "^2.5.0",
+    "@esbuild-kit/core-utils": {
+      "esbuild": "^0.25.12"
+    }
   }
 }
