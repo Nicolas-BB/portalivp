@@ -1,9 +1,13 @@
+import { existsSync } from "node:fs";
 import { defineConfig } from "drizzle-kit";
 
 // Configuração do drizzle-kit, a ferramenta que gera e aplica as migrations.
-// Lê o .env da raiz e conecta com a role DONA do banco, a única que pode
-// criar e alterar tabelas (decisão K3-A).
-process.loadEnvFile("../../.env");
+// Lê o .env da raiz (se existir; no CI e na VPS as variáveis já chegam prontas)
+// e conecta com a role DONA do banco, a única que pode criar e alterar
+// tabelas (decisão K3-A).
+if (existsSync("../../.env")) {
+  process.loadEnvFile("../../.env");
+}
 
 const ownerUrl = process.env.DATABASE_OWNER_URL;
 if (!ownerUrl) {

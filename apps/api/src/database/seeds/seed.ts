@@ -1,5 +1,5 @@
 import { categories, neighborhoods } from "../schema/index.js";
-import { connectForSeed } from "./connection.js";
+import { connectStandalone } from "../standalone.js";
 
 // Script inicial (npm run db:seed): preenche as listas fixas.
 // Roda no desenvolvimento e na produção (decisão N7-A).
@@ -27,7 +27,7 @@ const neighborhoodNames = [
   "Bairro Exemplo 6",
 ];
 
-const db = connectForSeed();
+const db = connectStandalone();
 
 try {
   await db
