@@ -173,3 +173,92 @@ input, button {
 .toggle-senha:hover {
     color: var(--green-dark);
 }
+.field-error {
+    font-size: 13px;
+    color: var(--danger);
+    line-height: 1.4;
+}
+.field-error:empty {
+    display: none;
+}
+
+/* Checkbox */
+.check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--gray);
+    cursor: pointer;
+}
+.check input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: var(--green);
+}
+.check a, .auth-link {
+    color: var(--green);
+    font-weight: 600;
+    transition: color var(--transition);    
+}
+.check a:hover, .auth-link:hover {
+    color: var(--green-dark);
+}
+
+/* Botão Principal */
+.botao-principal {
+    width: 100%;
+    height: 52px;
+    background: var(--green);
+    color: var(--white);
+    border: 0;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+.botao-principal:hover {
+    background: var(--green-dark);
+    box-shadow: 0 6px 16px rgba(38, 159, 85, .3);
+}
+.botao-principal:active {
+    transform: scale(.98);
+}
+
+/* Mensagem de status */
+.form-status {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--green-light);
+    font-size: 14px;
+    text-align: center;
+    color: var(--green);
+}
+.form-status:empty {
+    display: none;
+}
+
+/* Links do Rodapé */
+.auth-switch {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--gray);
+}
+.auth-back {
+    display: block;
+    text-align: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--gray);
+    transition: color var(--transition);
+}
+.auth-back:hover {
+    color: var(--green);
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
