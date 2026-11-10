@@ -13,7 +13,7 @@ import {
   socialLinks,
   users,
 } from "../schema/index.js";
-import { connectStandalone } from "../standalone.js";
+import { connectForScripts } from "../script-connection.js";
 
 // Dados de exemplo para o desenvolvimento e a apresentação (npm run db:seed:demo).
 // NUNCA rode na produção (decisão N7-A). Todos os dados são fictícios.
@@ -241,7 +241,7 @@ function findId(list: { id: string; name: string }[], name: string): string {
   return item.id;
 }
 
-const db = connectStandalone();
+const db = connectForScripts();
 
 try {
   // Tudo ou nada: se algo falhar no meio, nada fica gravado pela metade.

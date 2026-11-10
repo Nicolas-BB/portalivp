@@ -6,7 +6,7 @@ import * as schema from "./schema/index.js";
 
 // Conexão com o banco para o que roda fora da API: os scripts iniciais e os
 // comandos do Better Auth. Usa a role do app (DATABASE_URL), que só lê e grava dados.
-export function connectStandalone(): Database {
+export function connectForScripts(): Database {
   const env = loadEnv();
   const pool = new Pool({ connectionString: env.DATABASE_URL });
   return drizzle({ client: pool, schema });
