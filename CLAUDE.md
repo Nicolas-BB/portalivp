@@ -21,7 +21,7 @@ Tudo fica no **Notion do grupo**, não no Linear nem em `docs/`:
 Lembretes:
 
 - O `npm run db:seed` usa bairros fictícios ("Bairro Exemplo 1" a "6") até o Analista entregar a lista oficial de Ivaiporã (PI-32, decisão E1-A). Quando chegar, trocar os nomes em `apps/api/src/database/seeds/seed.ts`.
-- `overrides` no `package.json` da raiz, a remover quando as dependências corrigirem: `multer` 2.5.0 (o Nest 12.2 trava o 2.4.0, vulnerável) e o `esbuild` dentro do `@esbuild-kit/core-utils` (o `drizzle-kit` traz uma versão vulnerável).
+- `overrides` no `package.json` da raiz, a remover quando o `drizzle-kit` corrigir: o `esbuild` dentro do `@esbuild-kit/core-utils` (o `drizzle-kit` traz uma versão vulnerável). O do `multer` saiu quando o Nest 12.4 passou a trazer o 2.5.0 (PI-36).
 - As categorias de produto do `db:seed` têm nomes provisórios (decisão DR3) até o grupo definir a lista.
 - **Migrations e dados existentes (DR4-A):** enquanto não há dados reais, uma migration que não roda num banco local com dados de exemplo pode ser resolvida recriando o banco local (`docker compose -f compose.dev.yaml down -v`, depois `services:up`, `db:migrate`, `db:seed` e `db:seed:demo`). **A partir do primeiro deploy**, toda migration que mexe em dados existentes precisa tratá-los (ex.: coluna nova obrigatória = criar opcional, preencher, depois tornar obrigatória).
 - O schema das tabelas do Better Auth (`apps/api/src/database/schema/auth.ts`) é **gerado** pelo `npm run auth:generate -w @portalivp/api`: não edite à mão, gere de novo (ex.: ao adicionar um plugin).
