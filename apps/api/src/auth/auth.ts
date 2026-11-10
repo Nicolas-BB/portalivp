@@ -41,9 +41,8 @@ export function createAuth(db: Database, settings: AuthSettings) {
       // tentativas de login (ligado só na produção) usa este IP (decisão AU8-A).
       ipAddress: { ipAddressHeaders: ["x-real-ip"] },
       // Só aceita login, cadastro e logout vindos do próprio site (proteção
-      // contra CSRF). O Better Auth já faz isso por padrão, MAS desliga sozinho
-      // dentro dos testes; deixar explícito faz os testes provarem o
-      // comportamento real da produção.
+      // contra CSRF). O Better Auth já faz isso por padrão; deixar escrito
+      // mostra que a proteção é intencional.
       disableOriginCheck: false,
     },
     // Papel de administrador (decisão M2-A).

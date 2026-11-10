@@ -12,7 +12,6 @@ Projeto acadêmico (PI) em desenvolvimento.
 | API               | NestJS, com Better Auth para o login                                |
 | Banco             | PostgreSQL 18, com Drizzle                                          |
 | Validação         | Zod, com os schemas compartilhados entre o front e a API            |
-| Testes            | Vitest                                                              |
 | Lint e formatação | Oxlint e Prettier                                                   |
 
 ## Pré-requisitos
@@ -81,7 +80,6 @@ Todos rodam na raiz do repositório.
 | `npm run lint`              | Procura erros prováveis no código (Oxlint)                 |
 | `npm run format`            | Formata o código (Prettier)                                |
 | `npm run format:check`      | Confere se o código está formatado                         |
-| `npm test`                  | Roda os testes                                             |
 
 ## Estrutura
 
