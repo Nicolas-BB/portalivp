@@ -1,0 +1,443 @@
+/* Página da loja, adaptada do loja.css do Carlos. As letras que lá tinham
+   de 10 a 13 px subiram para 14 px ou mais (decisão FE4-A). */
+
+.page {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: 0 var(--gutter) clamp(40px, 6vw, 72px);
+}
+
+/* "Você está aqui" */
+.breadcrumb {
+  padding: 20px 0 16px;
+  font-size: var(--font-size-small);
+  color: var(--gray);
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb li + li::before {
+  content: "›";
+  margin-right: 8px;
+}
+
+.breadcrumb a:hover {
+  color: var(--green);
+}
+
+.breadcrumb [aria-current] {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Capa e identificação da loja */
+.hero {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.cover,
+.coverPlaceholder {
+  width: 100%;
+  height: clamp(140px, 24vw, 280px);
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.coverPlaceholder {
+  display: grid;
+  place-items: center;
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.heroBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px 20px;
+  padding: 0 clamp(16px, 3vw, 28px);
+}
+
+/* O logo "sobe" metade da altura por cima da capa, como no desenho. */
+.logo,
+.logoInitial {
+  flex-shrink: 0;
+  width: clamp(72px, 10vw, 96px);
+  aspect-ratio: 1;
+  margin-top: calc(clamp(72px, 10vw, 96px) / -2);
+  border: 4px solid var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.logo {
+  object-fit: cover;
+  background: var(--white);
+}
+
+.logoInitial {
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: var(--white);
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 800;
+}
+
+.heroInfo {
+  flex: 1;
+  min-width: 220px;
+  padding-top: 14px;
+}
+
+.heroTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.heroTitle h1 {
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.badgeOpen,
+.badgeClosed {
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: 700;
+}
+
+.badgeOpen {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.badgeClosed {
+  background: var(--gray-light);
+  color: var(--gray);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 8px;
+  color: var(--gray);
+}
+
+.meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta svg {
+  color: var(--green);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.whatsappButton,
+.phoneButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.whatsappButton {
+  background: var(--green);
+  color: var(--white);
+}
+
+.whatsappButton:hover {
+  background: var(--green-dark);
+}
+
+.phoneButton {
+  background: var(--gray-light);
+  color: var(--navy);
+}
+
+.phoneButton:hover {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.description {
+  padding: 16px clamp(16px, 3vw, 28px) 24px;
+  color: var(--gray);
+}
+
+/* Duas colunas: produtos (70%) e "Sobre a loja" (30%) */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  gap: 32px;
+  align-items: start;
+  padding-top: 40px;
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: clamp(20px, 3vw, 22px);
+  font-weight: 700;
+}
+
+/* Filtro por categoria */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
+
+.filter {
+  min-height: 40px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.filter:hover {
+  background: var(--gray-light);
+}
+
+.filter[aria-pressed="true"] {
+  background: var(--green);
+  color: var(--white);
+}
+
+/* Produtos: 3 por fileira no computador */
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.productImage,
+.productPlaceholder {
+  width: calc(100% - 24px);
+  margin: 12px 12px 0;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+}
+
+.productImage {
+  object-fit: cover;
+}
+
+.productPlaceholder {
+  display: grid;
+  place-items: center;
+  background: var(--gray-light);
+  color: var(--gray);
+}
+
+.productBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 16px;
+}
+
+.productName {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+}
+
+.productDescription {
+  font-size: var(--font-size-small);
+  color: var(--gray);
+}
+
+.price,
+.noPrice {
+  margin-top: auto;
+  padding-top: 12px;
+  font-weight: 700;
+}
+
+.price {
+  font-size: 18px;
+  color: var(--green);
+}
+
+.noPrice {
+  font-size: var(--font-size-small);
+  color: var(--gray);
+}
+
+.empty {
+  padding: 40px 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--gray-light);
+  color: var(--gray);
+  text-align: center;
+}
+
+/* "Sobre a loja" */
+.info {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+.infoTitle {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.infoBlock + .infoBlock {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.infoLabel {
+  margin-bottom: 8px;
+  font-size: var(--font-size-base);
+  font-weight: 700;
+}
+
+.hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 0;
+  color: var(--gray);
+}
+
+.hours li > span:last-child {
+  text-align: right;
+}
+
+.dayName,
+.range {
+  white-space: nowrap;
+}
+
+.hours li.today {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chips li {
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+}
+
+.links {
+  display: grid;
+  gap: 6px;
+}
+
+.infoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-top: 4px;
+  color: var(--green-dark);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.infoLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .products {
+    grid-template-columns: 1fr;
+  }
+
+  .heroActions {
+    width: 100%;
+  }
+
+  .whatsappButton,
+  .phoneButton {
+    flex: 1;
+  }
+}

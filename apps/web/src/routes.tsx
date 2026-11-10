@@ -13,6 +13,9 @@ import { ErrorPage } from "./pages/error/ErrorPage.tsx";
 import { HomePage } from "./pages/home/HomePage.tsx";
 import { homeLoader } from "./pages/home/loader.ts";
 import { NotFoundPage } from "./pages/not-found/NotFoundPage.tsx";
+import { storeLoader } from "./pages/store/loader.ts";
+import { StoreErrorPage } from "./pages/store/StoreErrorPage.tsx";
+import { StorePage } from "./pages/store/StorePage.tsx";
 
 // O "mapa" do site: cada endereço e a página que ele mostra.
 // As páginas que buscam dados ganham um loader, e os formulários, uma action (decisão I3-C).
@@ -29,6 +32,14 @@ export const router = createBrowserRouter([
     ErrorBoundary: ErrorPage,
     children: [
       { index: true, loader: homeLoader, Component: HomePage },
+      // Página da loja, ex.: /lojas/<id> (decisão PG1-A). O erro aparece
+      // dentro da moldura, com "Loja não encontrada" se ela não existir.
+      {
+        path: "lojas/:id",
+        loader: storeLoader,
+        Component: StorePage,
+        ErrorBoundary: StoreErrorPage,
+      },
       {
         path: "entrar",
         loader: redirectIfSignedIn,

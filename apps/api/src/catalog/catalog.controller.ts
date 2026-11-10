@@ -1,5 +1,16 @@
-import { BadRequestException, Controller, Get, Query } from "@nestjs/common";
-import type { CategoryItem, CompanyCard } from "@portalivp/shared";
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Query,
+} from "@nestjs/common";
+import type {
+  CategoryItem,
+  CompanyCard,
+  CompanyDetails,
+} from "@portalivp/shared";
 import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
 import { z } from "zod";
 import { CatalogService } from "./catalog.service.js";
@@ -35,5 +46,19 @@ export class CatalogController {
       throw new BadRequestException("Categoria inválida.");
     }
     return this.catalog.listCompanies(parsed.data.category);
+  }
+
+  // GET /api/companies/:id: a página da loja (decisão PG2).
+  @Get("companies/:id")
+  async getCompany(@Param("id") id: string): Promise<CompanyDetails> {
+    // Um id fora do formato de UUID não existe no banco: também é "não encontrada".
+    const parsedId = z.uuid().safeParse(id);
+    const company = parsedId.success
+      ? await this.catalog.getCompany(parsedId.data)
+      : null;
+    if (!company) {
+      throw new NotFoundException("Loja não encontrada.");
+    }
+    return company;
   }
 }

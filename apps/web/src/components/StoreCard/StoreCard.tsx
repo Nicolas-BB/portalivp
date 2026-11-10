@@ -1,12 +1,13 @@
 import type { CompanyCard } from "@portalivp/shared";
-import { MapPin, Store } from "lucide-react";
+import { ArrowRight, MapPin, Store } from "lucide-react";
+import { Link } from "react-router";
 import styles from "./StoreCard.module.css";
 
 // Cartão de uma loja (decisão HP4-A): capa, categorias, nome, descrição e bairro.
-// O botão "Ver loja" entra quando a página da loja existir (PI-25).
+// O cartão inteiro é um link para a página da loja (decisão PG6-A).
 export function StoreCard({ company }: { company: CompanyCard }) {
   return (
-    <article className={styles.card}>
+    <Link to={`/lojas/${company.id}`} className={styles.card}>
       {company.coverImage ? (
         <img
           className={styles.cover}
@@ -34,7 +35,11 @@ export function StoreCard({ company }: { company: CompanyCard }) {
           <MapPin size={16} aria-hidden="true" />
           {company.neighborhood}
         </p>
+        <span className={styles.more}>
+          Ver loja
+          <ArrowRight size={16} aria-hidden="true" />
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }
