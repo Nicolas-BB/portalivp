@@ -8,6 +8,13 @@
       "when": 1793105654274,
       "tag": "0000_create_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794240530881,
+      "tag": "0001_payments_logo_product_categories",
+      "breakpoints": true
     }
   ]
 }

@@ -8,6 +8,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
+import { productCategories } from "./catalog.js";
 import { companies } from "./companies.js";
 
 // Produtos de cada empresa (decisão M1-A).
@@ -18,6 +19,11 @@ export const products = pgTable(
     companyId: uuid("company_id")
       .notNull()
       .references(() => companies.id, { onDelete: "cascade" }),
+    // Obrigatória; "Outros" para o que não se encaixa (decisão DR3).
+    // Uma categoria em uso não pode ser apagada (N4-A).
+    categoryId: uuid("category_id")
+      .notNull()
+      .references(() => productCategories.id, { onDelete: "restrict" }),
     name: text("name").notNull(),
     description: text("description"),
     // Vazio = "Consulte o preço" (P5). Decimal exato, até 99.999.999,99 (N6-A).

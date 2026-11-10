@@ -3,10 +3,12 @@ import {
   categories,
   companies,
   companyCategories,
+  companyPaymentMethods,
   companyServiceTypes,
   contactChannels,
   neighborhoods,
   openingHours,
+  productCategories,
   products,
   socialLinks,
   users,
@@ -30,9 +32,13 @@ type DemoStore = {
   neighborhoodName: string;
   number: string;
   serviceTypes: ("in_person" | "online" | "delivery" | "pickup")[];
+  paymentMethods: (
+    "cash" | "pix" | "credit_card" | "debit_card" | "meal_voucher"
+  )[];
   whatsapp: string;
   // Preço vazio (null) aparece como "Consulte o preço" (P5).
-  products: { name: string; price: number | null }[];
+  // category: o nome de uma categoria de produto do script inicial.
+  products: { name: string; price: number | null; category: string }[];
 };
 
 const stores: DemoStore[] = [
@@ -44,11 +50,16 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 1",
     number: "100",
     serviceTypes: ["in_person", "pickup"],
+    paymentMethods: ["cash", "pix", "debit_card", "meal_voucher"],
     whatsapp: "(43) 90000-0001",
     products: [
-      { name: "Pão francês (kg)", price: 16.9 },
-      { name: "Bolo de fubá", price: 22 },
-      { name: "Torta salgada sob encomenda", price: null },
+      { name: "Pão francês (kg)", price: 16.9, category: "Alimentos" },
+      { name: "Bolo de fubá", price: 22, category: "Alimentos" },
+      {
+        name: "Torta salgada sob encomenda",
+        price: null,
+        category: "Alimentos",
+      },
     ],
   },
   {
@@ -59,11 +70,18 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 2",
     number: "200",
     serviceTypes: ["in_person", "delivery"],
+    paymentMethods: [
+      "cash",
+      "pix",
+      "credit_card",
+      "debit_card",
+      "meal_voucher",
+    ],
     whatsapp: "(43) 90000-0002",
     products: [
-      { name: "Marmita média", price: 22 },
-      { name: "Prato executivo", price: 29.9 },
-      { name: "Feijoada (aos sábados)", price: 39.9 },
+      { name: "Marmita média", price: 22, category: "Alimentos" },
+      { name: "Prato executivo", price: 29.9, category: "Alimentos" },
+      { name: "Feijoada (aos sábados)", price: 39.9, category: "Alimentos" },
     ],
   },
   {
@@ -74,11 +92,18 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 3",
     number: "300",
     serviceTypes: ["in_person", "delivery"],
+    paymentMethods: [
+      "cash",
+      "pix",
+      "credit_card",
+      "debit_card",
+      "meal_voucher",
+    ],
     whatsapp: "(43) 90000-0003",
     products: [
-      { name: "Arroz 5 kg", price: 27.9 },
-      { name: "Feijão 1 kg", price: 8.49 },
-      { name: "Café 500 g", price: 18.9 },
+      { name: "Arroz 5 kg", price: 27.9, category: "Alimentos" },
+      { name: "Feijão 1 kg", price: 8.49, category: "Alimentos" },
+      { name: "Café 500 g", price: 18.9, category: "Bebidas" },
     ],
   },
   {
@@ -89,11 +114,12 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 4",
     number: "400",
     serviceTypes: ["in_person", "delivery"],
+    paymentMethods: ["cash", "pix", "credit_card", "debit_card"],
     whatsapp: "(43) 90000-0004",
     products: [
-      { name: "Ração para cães 10 kg", price: 119.9 },
-      { name: "Banho e tosa", price: null },
-      { name: "Coleira ajustável", price: 24.9 },
+      { name: "Ração para cães 10 kg", price: 119.9, category: "Pet" },
+      { name: "Banho e tosa", price: null, category: "Serviços" },
+      { name: "Coleira ajustável", price: 24.9, category: "Pet" },
     ],
   },
   {
@@ -104,11 +130,12 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 5",
     number: "500",
     serviceTypes: ["in_person"],
+    paymentMethods: ["cash", "pix", "debit_card"],
     whatsapp: "(43) 90000-0005",
     products: [
-      { name: "Corte feminino", price: 60 },
-      { name: "Manicure", price: 35 },
-      { name: "Escova", price: null },
+      { name: "Corte feminino", price: 60, category: "Serviços" },
+      { name: "Manicure", price: 35, category: "Serviços" },
+      { name: "Escova", price: null, category: "Serviços" },
     ],
   },
   {
@@ -119,11 +146,12 @@ const stores: DemoStore[] = [
     neighborhoodName: "Bairro Exemplo 6",
     number: "600",
     serviceTypes: ["in_person", "online"],
+    paymentMethods: ["pix", "credit_card", "debit_card"],
     whatsapp: "(43) 90000-0006",
     products: [
-      { name: "Camiseta básica", price: 39.9 },
-      { name: "Calça jeans", price: 129.9 },
-      { name: "Vestido", price: 99.9 },
+      { name: "Camiseta básica", price: 39.9, category: "Roupas e calçados" },
+      { name: "Calça jeans", price: 129.9, category: "Roupas e calçados" },
+      { name: "Vestido", price: 99.9, category: "Roupas e calçados" },
     ],
   },
 ];
@@ -162,6 +190,7 @@ try {
     );
 
     const allCategories = await tx.select().from(categories);
+    const allProductCategories = await tx.select().from(productCategories);
     const allNeighborhoods = await tx.select().from(neighborhoods);
     const createdOwners = await tx.insert(users).values(owners).returning();
 
@@ -198,6 +227,13 @@ try {
           store.serviceTypes.map((type) => ({ companyId: company.id, type })),
         );
 
+      await tx.insert(companyPaymentMethods).values(
+        store.paymentMethods.map((method) => ({
+          companyId: company.id,
+          method,
+        })),
+      );
+
       await tx
         .insert(openingHours)
         .values(
@@ -219,8 +255,10 @@ try {
 
       await tx.insert(products).values(
         store.products.map((product) => ({
-          ...product,
           companyId: company.id,
+          categoryId: findId(allProductCategories, product.category),
+          name: product.name,
+          price: product.price,
         })),
       );
     }

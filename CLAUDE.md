@@ -16,12 +16,14 @@ Tudo fica no **Notion do grupo**, não no Linear nem em `docs/`:
 
 ## Fase atual
 
-**Apresentação parcial em 2026-11-11:** demonstração local de ponta a ponta (cadastro, login e página inicial com lojas de exemplo vindas do banco). Tarefas com esse prazo: PI-5 (concluída), PI-6, PI-8, PI-9, PI-10, PI-12, PI-13 e PI-23. Ordem combinada em 2026-10-26: PI-6 → PI-7 → PI-36 → as demais.
+**Navegação (decisão PF1-C):** depois da apresentação parcial de 2026-11-11 (concluída: cadastro, login e página inicial), a fase é a da página da loja e da busca, a partir do desenho `loja.html` do Carlos. Ordem combinada em 2026-11-09 (PF2): PI-39 (banco: formas de pagamento, logo e categorias de produto) → PI-25 (página da loja) → PI-38 ("Minha lista", a lista de interesse enviada pelo WhatsApp) → PI-24 (busca). Fora do escopo do projeto (página do projeto no Notion): avaliações e comentários, carrinho de compras, pagamentos online, entrega e chat. A "Minha lista" não é carrinho: não gera pedido, pagamento nem entrega.
 
 Lembretes:
 
 - O `npm run db:seed` usa bairros fictícios ("Bairro Exemplo 1" a "6") até o Analista entregar a lista oficial de Ivaiporã (PI-32, decisão E1-A). Quando chegar, trocar os nomes em `apps/api/src/database/seeds/seed.ts`.
 - `overrides` no `package.json` da raiz, a remover quando as dependências corrigirem: `multer` 2.5.0 (o Nest 12.2 trava o 2.4.0, vulnerável) e o `esbuild` dentro do `@esbuild-kit/core-utils` (o `drizzle-kit` traz uma versão vulnerável).
+- As categorias de produto do `db:seed` têm nomes provisórios (decisão DR3) até o grupo definir a lista.
+- **Migrations e dados existentes (DR4-A):** enquanto não há dados reais, uma migration que não roda num banco local com dados de exemplo pode ser resolvida recriando o banco local (`docker compose -f compose.dev.yaml down -v`, depois `services:up`, `db:migrate`, `db:seed` e `db:seed:demo`). **A partir do primeiro deploy**, toda migration que mexe em dados existentes precisa tratá-los (ex.: coluna nova obrigatória = criar opcional, preencher, depois tornar obrigatória).
 - O schema das tabelas do Better Auth (`apps/api/src/database/schema/auth.ts`) é **gerado** pelo `npm run auth:generate -w @portalivp/api`: não edite à mão, gere de novo (ex.: ao adicionar um plugin).
 - O Dependabot ignora o TypeScript 7, o Vitest 5 e as versões grandes do `@types/node` (regras no `.github/dependabot.yml`). Reavaliar o TypeScript 7 quando o Nest CLI suportar e o Vitest 5 quando o modelo do `nest new` adotar; o `@types/node` sobe junto com o Node.
 - O `gh` precisa estar com a conta **Nicolas-BB** ativa (`gh auth switch`) para mexer neste repositório.
