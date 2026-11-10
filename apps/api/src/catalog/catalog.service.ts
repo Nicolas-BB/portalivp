@@ -1,5 +1,12 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { toSlug, type CategoryItem, type CompanyCard } from "@portalivp/shared";
+import {
+  isOpenNow,
+  toSlug,
+  type CategoryItem,
+  type CompanyCard,
+  type CompanyDetails,
+  type ProductItem,
+} from "@portalivp/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { DATABASE, type Database } from "../database/database.module.js";
 import {
@@ -7,7 +14,15 @@ import {
   companies,
   companyCategories,
   companyImages,
+  companyPaymentMethods,
+  companyServiceTypes,
+  contactChannels,
   neighborhoods,
+  openingHours,
+  productCategories,
+  productImages,
+  products,
+  socialLinks,
 } from "../database/schema/index.js";
 
 // Quantas lojas a página inicial mostra (decisão HP1-A).
@@ -104,5 +119,166 @@ export class CatalogService {
       coverImage:
         imageRows.find((image) => image.companyId === row.id)?.fileName ?? null,
     }));
+  }
+
+  // Tudo o que a página da loja mostra (decisão PG2). Devolve null se a loja
+  // não existe ou não está ativa: para o visitante, as duas dão "Loja não
+  // encontrada" (só "active" aparece ao público, M3-B).
+  async getCompany(
+    id: string,
+    now = new Date(),
+  ): Promise<CompanyDetails | null> {
+    // 1. A loja, com o nome do bairro.
+    const [company] = await this.db
+      .select({
+        id: companies.id,
+        name: companies.name,
+        description: companies.description,
+        logoFileName: companies.logoFileName,
+        neighborhood: neighborhoods.name,
+        street: companies.street,
+        number: companies.number,
+        complement: companies.complement,
+        cep: companies.cep,
+        latitude: companies.latitude,
+        longitude: companies.longitude,
+      })
+      .from(companies)
+      .innerJoin(neighborhoods, eq(companies.neighborhoodId, neighborhoods.id))
+      .where(and(eq(companies.id, id), eq(companies.status, "active")));
+
+    if (!company) {
+      return null;
+    }
+
+    // 2. As listas ligadas à loja. São consultas independentes, então rodam
+    // ao mesmo tempo (Promise.all).
+    const [
+      imageRows,
+      categoryRows,
+      hourRows,
+      serviceTypeRows,
+      paymentRows,
+      contactRows,
+      socialRows,
+      productRows,
+    ] = await Promise.all([
+      this.db
+        .select({ fileName: companyImages.fileName })
+        .from(companyImages)
+        .where(eq(companyImages.companyId, id))
+        .orderBy(asc(companyImages.position)),
+      this.db
+        .select({ id: categories.id, name: categories.name })
+        .from(companyCategories)
+        .innerJoin(categories, eq(companyCategories.categoryId, categories.id))
+        .where(eq(companyCategories.companyId, id))
+        .orderBy(asc(categories.name)),
+      this.db
+        .select({
+          weekday: openingHours.weekday,
+          opensAt: openingHours.opensAt,
+          closesAt: openingHours.closesAt,
+        })
+        .from(openingHours)
+        .where(eq(openingHours.companyId, id))
+        .orderBy(asc(openingHours.weekday), asc(openingHours.opensAt)),
+      this.db
+        .select({ type: companyServiceTypes.type })
+        .from(companyServiceTypes)
+        .where(eq(companyServiceTypes.companyId, id))
+        .orderBy(asc(companyServiceTypes.type)),
+      this.db
+        .select({ method: companyPaymentMethods.method })
+        .from(companyPaymentMethods)
+        .where(eq(companyPaymentMethods.companyId, id))
+        .orderBy(asc(companyPaymentMethods.method)),
+      this.db
+        .select({ type: contactChannels.type, value: contactChannels.value })
+        .from(contactChannels)
+        .where(eq(contactChannels.companyId, id))
+        .orderBy(asc(contactChannels.type), asc(contactChannels.value)),
+      this.db
+        .select({ platform: socialLinks.platform, url: socialLinks.url })
+        .from(socialLinks)
+        .where(eq(socialLinks.companyId, id))
+        .orderBy(asc(socialLinks.platform)),
+      // Só os produtos ativos, em ordem alfabética (PG7-A).
+      this.db
+        .select({
+          id: products.id,
+          name: products.name,
+          description: products.description,
+          price: products.price,
+          category: productCategories.name,
+        })
+        .from(products)
+        .innerJoin(
+          productCategories,
+          eq(products.categoryId, productCategories.id),
+        )
+        .where(and(eq(products.companyId, id), eq(products.active, true)))
+        .orderBy(asc(products.name)),
+    ]);
+
+    // 3. A primeira foto de cada produto (a primeira é a capa, P10).
+    const productIds = productRows.map((product) => product.id);
+    const productImageRows =
+      productIds.length === 0
+        ? []
+        : await this.db
+            .select({
+              productId: productImages.productId,
+              fileName: productImages.fileName,
+            })
+            .from(productImages)
+            .where(inArray(productImages.productId, productIds))
+            .orderBy(asc(productImages.position));
+
+    const productList: ProductItem[] = productRows.map((product) => ({
+      ...product,
+      image:
+        productImageRows.find((image) => image.productId === product.id)
+          ?.fileName ?? null,
+    }));
+
+    // O banco devolve a hora como "08:00:00"; a página só usa "08:00".
+    const hours = hourRows.map((row) => ({
+      weekday: row.weekday,
+      opensAt: row.opensAt.slice(0, 5),
+      closesAt: row.closesAt.slice(0, 5),
+    }));
+
+    // Junta tudo no formato da página.
+    return {
+      id: company.id,
+      name: company.name,
+      description: company.description,
+      logoImage: company.logoFileName,
+      images: imageRows.map((image) => image.fileName),
+      categories: categoryRows.map((category) => ({
+        ...category,
+        slug: toSlug(category.name),
+      })),
+      neighborhood: company.neighborhood,
+      address: {
+        street: company.street,
+        number: company.number,
+        complement: company.complement,
+        cep: company.cep,
+      },
+      // Latitude e longitude vêm juntas ou as duas vazias (regra do banco).
+      location:
+        company.latitude !== null && company.longitude !== null
+          ? { latitude: company.latitude, longitude: company.longitude }
+          : null,
+      openingHours: hours,
+      isOpenNow: isOpenNow(hours, now),
+      serviceTypes: serviceTypeRows.map((row) => row.type),
+      paymentMethods: paymentRows.map((row) => row.method),
+      contacts: contactRows,
+      socialLinks: socialRows,
+      products: productList,
+    };
   }
 }

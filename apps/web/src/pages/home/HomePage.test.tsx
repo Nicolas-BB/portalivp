@@ -80,6 +80,10 @@ describe("Página inicial", () => {
       screen.getByRole("heading", { name: "Moda & Estilo" }),
     ).toBeVisible();
     expect(screen.getByRole("link", { name: "Pet Shop" })).toBeVisible();
+    // O cartão inteiro leva à página da loja (decisão PG6-A).
+    expect(
+      screen.getByRole("link", { name: /Pet Shop Amigo Fiel/ }),
+    ).toHaveAttribute("href", "/lojas/1");
     // "Todas" começa escolhida.
     expect(screen.getByRole("link", { name: "Todas" })).toHaveAttribute(
       "aria-current",
