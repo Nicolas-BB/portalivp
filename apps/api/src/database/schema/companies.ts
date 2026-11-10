@@ -47,6 +47,15 @@ export const socialPlatform = pgEnum("social_platform", [
   "website",
 ]);
 
+// Formas de pagamento que a empresa aceita (decisões LJ3 e DR1).
+export const paymentMethod = pgEnum("payment_method", [
+  "cash",
+  "pix",
+  "credit_card",
+  "debit_card",
+  "meal_voucher",
+]);
+
 export const companies = pgTable(
   "companies",
   {
@@ -57,6 +66,9 @@ export const companies = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
     description: text("description").notNull(),
+    // Logo da empresa, opcional (decisões LJ4-B e DR2). O arquivo fica no
+    // disco (I1-A); aqui fica só o nome.
+    logoFileName: text("logo_file_name"),
     status: companyStatus("status").notNull().default("pending"),
     // Motivo da recusa ou da suspensão (P9).
     statusReason: text("status_reason"),
@@ -139,6 +151,18 @@ export const companyServiceTypes = pgTable(
     type: serviceType("type").notNull(),
   },
   (table) => [primaryKey({ columns: [table.companyId, table.type] })],
+);
+
+// Liga a empresa às formas de pagamento que ela aceita (decisão DR1).
+export const companyPaymentMethods = pgTable(
+  "company_payment_methods",
+  {
+    companyId: uuid("company_id")
+      .notNull()
+      .references(() => companies.id, { onDelete: "cascade" }),
+    method: paymentMethod("method").notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.companyId, table.method] })],
 );
 
 export const contactChannels = pgTable(

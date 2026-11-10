@@ -1,4 +1,8 @@
-import { categories, neighborhoods } from "../schema/index.js";
+import {
+  categories,
+  neighborhoods,
+  productCategories,
+} from "../schema/index.js";
 import { connectStandalone } from "../standalone.js";
 
 // Script inicial (npm run db:seed): preenche as listas fixas.
@@ -15,6 +19,20 @@ const categoryNames = [
   "Beleza",
   "Moda",
   "Serviços",
+];
+
+// Categorias de produto: uma lista única para todas as lojas (decisões LJ5-A e DR3).
+// Nomes provisórios até o grupo definir a lista. "Outros" é para o que não se encaixa.
+const productCategoryNames = [
+  "Alimentos",
+  "Bebidas",
+  "Roupas e calçados",
+  "Acessórios",
+  "Beleza e higiene",
+  "Pet",
+  "Casa",
+  "Serviços",
+  "Outros",
 ];
 
 // Bairros fictícios até a lista oficial de Ivaiporã chegar (PI-32, decisão E1-A).
@@ -36,12 +54,19 @@ try {
     .onConflictDoNothing();
 
   await db
+    .insert(productCategories)
+    .values(productCategoryNames.map((name) => ({ name })))
+    .onConflictDoNothing();
+
+  await db
     .insert(neighborhoods)
     .values(neighborhoodNames.map((name) => ({ name })))
     .onConflictDoNothing();
 
   console.log(
-    `Pronto: ${categoryNames.length} categorias e ${neighborhoodNames.length} bairros.`,
+    `Pronto: ${categoryNames.length} categorias de loja, ` +
+      `${productCategoryNames.length} categorias de produto e ` +
+      `${neighborhoodNames.length} bairros.`,
   );
 } finally {
   await db.$client.end();

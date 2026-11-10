@@ -14,3 +14,10 @@ export const categories = pgTable("categories", {
   name: text("name").notNull().unique(),
   description: text("description"),
 });
+
+// Categorias dos produtos, como Bebidas e Roupas e calçados: uma lista única
+// para todas as lojas (decisões LJ5-A e DR3). Nomes provisórios até o grupo definir.
+export const productCategories = pgTable("product_categories", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull().unique(),
+});
