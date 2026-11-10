@@ -1,5 +1,5 @@
 import { loadEnv } from "../config/env.js";
-import { connectStandalone } from "../database/standalone.js";
+import { connectForScripts } from "../database/script-connection.js";
 import { createAuth } from "./auth.js";
 
 // Usado só pelos comandos do Better Auth, que rodam fora da API:
@@ -7,7 +7,7 @@ import { createAuth } from "./auth.js";
 // - npm run auth:create-admin                  (cria o administrador, decisão AU5-A)
 const env = loadEnv();
 
-export const auth = createAuth(connectStandalone(), {
+export const auth = createAuth(connectForScripts(), {
   baseURL: env.BETTER_AUTH_URL,
   secret: env.BETTER_AUTH_SECRET,
 });

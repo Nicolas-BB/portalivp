@@ -35,7 +35,7 @@ Sem pontos: "Nenhuma decisão nova".
 
 ## Testes
 
-<!-- O que rodou (formatação, lint, tipos, testes, build) e o que foi conferido à mão. -->
+<!-- O que rodou (formatação, lint, tipos, build) e o que foi conferido à mão. -->
 
 -
 
@@ -46,7 +46,7 @@ Sem pontos: "Nenhuma decisão nova".
 
 ## Checklist de segurança
 
-- [ ] Nenhum segredo, dado real ou dado pessoal em código, log, teste ou imagem Docker
+- [ ] Nenhum segredo, dado real ou dado pessoal em código, log ou imagem Docker
 - [ ] Entrada validada no servidor
 
 ## Documentação
