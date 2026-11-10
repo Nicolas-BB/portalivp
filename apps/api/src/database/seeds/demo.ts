@@ -36,9 +36,25 @@ type DemoStore = {
     "cash" | "pix" | "credit_card" | "debit_card" | "meal_voucher"
   )[];
   whatsapp: string;
+  // Opcionais: algumas lojas têm, para a página da loja mostrar tudo o que
+  // sabe fazer na apresentação (decisão ML0-A).
+  complement?: string;
+  // Um ponto perto do centro de Ivaiporã, para o "Ver no mapa" (P2-B).
+  location?: { latitude: number; longitude: number };
+  phone?: string;
+  email?: string;
+  socialLinks?: {
+    platform: "instagram" | "facebook" | "tiktok" | "website";
+    url: string;
+  }[];
   // Preço vazio (null) aparece como "Consulte o preço" (P5).
   // category: o nome de uma categoria de produto do script inicial.
-  products: { name: string; price: number | null; category: string }[];
+  products: {
+    name: string;
+    price: number | null;
+    category: string;
+    description?: string;
+  }[];
 };
 
 const stores: DemoStore[] = [
@@ -52,13 +68,34 @@ const stores: DemoStore[] = [
     serviceTypes: ["in_person", "pickup"],
     paymentMethods: ["cash", "pix", "debit_card", "meal_voucher"],
     whatsapp: "(43) 90000-0001",
+    location: { latitude: -24.2468, longitude: -51.6849 },
+    phone: "(43) 90000-1001",
+    socialLinks: [
+      { platform: "facebook", url: "https://example.com/facebook/padaria" },
+    ],
     products: [
-      { name: "Pão francês (kg)", price: 16.9, category: "Alimentos" },
-      { name: "Bolo de fubá", price: 22, category: "Alimentos" },
+      {
+        name: "Pão francês (kg)",
+        price: 16.9,
+        category: "Alimentos",
+        description: "Sai do forno às 6h, às 11h e às 16h.",
+      },
+      {
+        name: "Bolo de fubá",
+        price: 22,
+        category: "Alimentos",
+        description: "Receita da casa, com erva-doce.",
+      },
       {
         name: "Torta salgada sob encomenda",
         price: null,
         category: "Alimentos",
+        description: "Frango ou palmito. Encomende com um dia de antecedência.",
+      },
+      {
+        name: "Suco de laranja (500 ml)",
+        price: 9,
+        category: "Bebidas",
       },
     ],
   },
@@ -78,6 +115,10 @@ const stores: DemoStore[] = [
       "meal_voucher",
     ],
     whatsapp: "(43) 90000-0002",
+    email: "sabordacasa@example.com",
+    socialLinks: [
+      { platform: "instagram", url: "https://example.com/instagram/sabor" },
+    ],
     products: [
       { name: "Marmita média", price: 22, category: "Alimentos" },
       { name: "Prato executivo", price: 29.9, category: "Alimentos" },
@@ -116,10 +157,34 @@ const stores: DemoStore[] = [
     serviceTypes: ["in_person", "delivery"],
     paymentMethods: ["cash", "pix", "credit_card", "debit_card"],
     whatsapp: "(43) 90000-0004",
+    // A loja mais completa: a melhor para a demonstração.
+    complement: "Sala 2",
+    location: { latitude: -24.2491, longitude: -51.6823 },
+    phone: "(43) 90000-1004",
+    email: "amigofiel@example.com",
+    socialLinks: [
+      { platform: "instagram", url: "https://example.com/instagram/amigofiel" },
+      { platform: "tiktok", url: "https://example.com/tiktok/amigofiel" },
+    ],
     products: [
-      { name: "Ração para cães 10 kg", price: 119.9, category: "Pet" },
-      { name: "Banho e tosa", price: null, category: "Serviços" },
-      { name: "Coleira ajustável", price: 24.9, category: "Pet" },
+      {
+        name: "Ração para cães 10 kg",
+        price: 119.9,
+        category: "Pet",
+        description: "Para cães adultos de porte médio.",
+      },
+      {
+        name: "Banho e tosa",
+        price: null,
+        category: "Serviços",
+        description: "O preço depende do porte. Agende pelo WhatsApp.",
+      },
+      {
+        name: "Coleira ajustável",
+        price: 24.9,
+        category: "Pet",
+        description: "Tamanhos P, M e G.",
+      },
     ],
   },
   {
@@ -210,7 +275,10 @@ try {
           cep: "86870-000",
           street: "Rua Exemplo",
           number: store.number,
+          complement: store.complement,
           neighborhoodId: findId(allNeighborhoods, store.neighborhoodName),
+          latitude: store.location?.latitude,
+          longitude: store.location?.longitude,
         })
         .returning();
 
@@ -240,24 +308,46 @@ try {
           demoHours.map((hours) => ({ ...hours, companyId: company.id })),
         );
 
-      await tx.insert(contactChannels).values({
-        companyId: company.id,
-        type: "whatsapp",
-        value: store.whatsapp,
-      });
+      // Contatos: o WhatsApp, que todas têm, e o telefone e o e-mail, se tiverem.
+      const contacts: (typeof contactChannels.$inferInsert)[] = [
+        { companyId: company.id, type: "whatsapp", value: store.whatsapp },
+      ];
+      if (store.phone) {
+        contacts.push({
+          companyId: company.id,
+          type: "phone",
+          value: store.phone,
+        });
+      }
+      if (store.email) {
+        contacts.push({
+          companyId: company.id,
+          type: "email",
+          value: store.email,
+        });
+      }
+      await tx.insert(contactChannels).values(contacts);
 
-      // Site fictício: o domínio example.com é reservado para exemplos.
-      await tx.insert(socialLinks).values({
-        companyId: company.id,
-        platform: "website",
-        url: `https://example.com/loja-${index + 1}`,
-      });
+      // Links fictícios: o domínio example.com é reservado para exemplos.
+      // Todas têm um site; algumas também têm redes sociais.
+      const links: (typeof socialLinks.$inferInsert)[] = [
+        {
+          companyId: company.id,
+          platform: "website",
+          url: `https://example.com/loja-${index + 1}`,
+        },
+      ];
+      for (const link of store.socialLinks ?? []) {
+        links.push({ ...link, companyId: company.id });
+      }
+      await tx.insert(socialLinks).values(links);
 
       await tx.insert(products).values(
         store.products.map((product) => ({
           companyId: company.id,
           categoryId: findId(allProductCategories, product.category),
           name: product.name,
+          description: product.description,
           price: product.price,
         })),
       );
