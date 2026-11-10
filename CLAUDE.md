@@ -16,7 +16,7 @@ Tudo fica no **Notion do grupo**, não no Linear nem em `docs/`:
 
 ## Fase atual
 
-**Navegação (decisão PF1-C):** depois da apresentação parcial de 2026-11-11 (concluída: cadastro, login e página inicial), a fase é a da página da loja e da busca, a partir do desenho `loja.html` do Carlos. Ordem combinada em 2026-11-09 (PF2): PI-39 (banco: formas de pagamento, logo e categorias de produto) → PI-25 (página da loja) → PI-38 ("Minha lista", a lista de interesse enviada pelo WhatsApp) → PI-24 (busca). Fora do escopo do projeto (página do projeto no Notion): avaliações e comentários, carrinho de compras, pagamentos online, entrega e chat. A "Minha lista" não é carrinho: não gera pedido, pagamento nem entrega.
+**Navegação (decisão PF1-C):** depois da apresentação parcial de 2026-11-11 (concluída: cadastro, login e página inicial), a fase é a da página da loja e da busca, a partir do desenho `loja.html` do Carlos. Ordem combinada em 2026-11-09 (PF2): PI-39 (banco: formas de pagamento, logo e categorias de produto) → PI-25 (página da loja) → PI-38 ("Minha lista", a lista de interesse enviada pelo WhatsApp) → PI-24 (busca). **Escopo reduzido em 2026-11-10 (PF3-C):** a próxima apresentação mostra só a página da loja (pronta), com os dados de exemplo completos (ML0-A); a "Minha lista", a busca e o resto do projeto não serão desenvolvidos agora. Não comece outra tarefa sem o usuário pedir. Fora do escopo do projeto (página do projeto no Notion): avaliações e comentários, carrinho de compras, pagamentos online, entrega e chat. A "Minha lista" não é carrinho: não gera pedido, pagamento nem entrega.
 
 Lembretes:
 
