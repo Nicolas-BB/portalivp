@@ -17,14 +17,14 @@
     "auth:create-admin": "auth create-admin --config src/auth/cli.ts"
   },
   "dependencies": {
-    "@better-auth/drizzle-adapter": "^1.7.18",
-    "@nestjs/common": "^12.4.0",
+    "@better-auth/drizzle-adapter": "^1.7.22",
+    "@nestjs/common": "^12.5.0",
     "@nestjs/config": "^12.1.1",
-    "@nestjs/core": "^12.4.0",
-    "@nestjs/platform-express": "^12.4.0",
+    "@nestjs/core": "^12.5.0",
+    "@nestjs/platform-express": "^12.5.0",
     "@portalivp/shared": "*",
     "@thallesp/nestjs-better-auth": "^2.8.0",
-    "better-auth": "^1.7.18",
+    "better-auth": "^1.7.22",
     "drizzle-orm": "^0.45.4",
     "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
@@ -37,7 +37,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/pg": "^8.23.1",
-    "auth": "^1.7.18",
+    "auth": "^1.7.22",
     "drizzle-kit": "^0.31.11",
     "source-map-support": "^0.5.21"
   }
